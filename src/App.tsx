@@ -153,7 +153,6 @@ export const App: React.FC = () => {
             <Clock
               hebrewDateStr={shabbatTimes?.hebrewDateStr}
               hebrewDateHebrew={shabbatTimes?.hebrewDateHebrew}
-              utcOffsetSeconds={shabbatTimes?.utcOffsetSeconds !== undefined ? shabbatTimes.utcOffsetSeconds : weather?.utcOffsetSeconds}
             />
           </ErrorBoundary>
         </section>

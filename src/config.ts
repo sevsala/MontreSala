@@ -4,18 +4,18 @@ export const APP_CONFIG = {
   // Title & App Name
   appName: 'Montre Sala Kiosk',
 
-  // Fallback location if auto-detection (IP) is unavailable
+  // Default location in Israel: Haïfa (or user can switch to Jerusalem, Tel Aviv, etc.)
   defaultLocation: {
-    city: 'Jérusalem',
+    city: 'Haïfa',
     country: 'Israël',
-    latitude: 31.7683,
-    longitude: 35.2137,
+    latitude: 32.7940,
+    longitude: 34.9896,
     timezone: 'Asia/Jerusalem',
-    geonameid: 281184
+    geonameid: 294801
   } as GeoLocation,
 
-  // Set to true to automatically detect location via IP address on startup
-  autoDetectLocation: true,
+  // Force Israeli location - NEVER auto-detect foreign server IPs
+  autoDetectLocation: false,
 
   // Clock settings
   clock: {

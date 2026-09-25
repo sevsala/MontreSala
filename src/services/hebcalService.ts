@@ -287,7 +287,17 @@ function getCachedShabbat(): ShabbatTimes | null {
   try {
     const item = localStorage.getItem(APP_CONFIG.cacheKeys.shabbat);
     if (item) {
-      return JSON.parse(item) as ShabbatTimes;
+      const parsed = JSON.parse(item) as ShabbatTimes;
+      // Invalidate if data is older than 2 hours or contains corrupted foreign times
+      if (
+        !parsed ||
+        (parsed.lastUpdated && Date.now() - parsed.lastUpdated > 2 * 3600 * 1000) ||
+        (parsed.candleLighting && parsed.candleLighting.time === '19:38')
+      ) {
+        localStorage.removeItem(APP_CONFIG.cacheKeys.shabbat);
+        return null;
+      }
+      return parsed;
     }
   } catch (e) {}
   return null;

@@ -8,10 +8,39 @@ interface ClockProps {
   utcOffsetSeconds?: number;
 }
 
+// Dynamically calculates Israeli UTC offset:
+// - UTC+3 during Israel Daylight Saving Time (late March -> late October)
+// - UTC+2 during Israel Standard Time (late October -> late March)
+export function getIsraelUtcOffsetHours(date: Date): number {
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth(); // 0 = Jan, 8 = Sep, 9 = Oct
+
+  if (month >= 3 && month <= 8) return 3;
+  if (month <= 1 || month === 10 || month === 11) return 2;
+
+  if (month === 2) {
+    const lastDayMarch = new Date(Date.UTC(year, 2, 31));
+    const dayOfWeek = lastDayMarch.getUTCDay();
+    const lastSunday = 31 - dayOfWeek;
+    const fridayBefore = lastSunday - 2;
+    const dstStart = new Date(Date.UTC(year, 2, fridayBefore, 0, 0, 0));
+    return date.getTime() >= dstStart.getTime() ? 3 : 2;
+  }
+
+  if (month === 9) {
+    const lastDayOct = new Date(Date.UTC(year, 9, 31));
+    const dayOfWeek = lastDayOct.getUTCDay();
+    const lastSunday = 31 - dayOfWeek;
+    const dstEnd = new Date(Date.UTC(year, 9, lastSunday, 0, 0, 0));
+    return date.getTime() < dstEnd.getTime() ? 3 : 2;
+  }
+
+  return 3;
+}
+
 export const Clock: React.FC<ClockProps> = ({
   hebrewDateStr,
-  hebrewDateHebrew,
-  utcOffsetSeconds
+  hebrewDateHebrew
 }) => {
   const [time, setTime] = useState(new Date());
 
@@ -32,21 +61,20 @@ export const Clock: React.FC<ClockProps> = ({
     return () => clearTimeout(timerId);
   }, []);
 
-  const hasOffset = typeof utcOffsetSeconds === 'number';
-  const effectiveDate = hasOffset
-    ? new Date(time.getTime() + (utcOffsetSeconds as number) * 1000)
-    : time;
+  // Guarantee strictly Israeli time regardless of iPad local setting
+  const offsetHours = getIsraelUtcOffsetHours(time);
+  const israelDate = new Date(time.getTime() + offsetHours * 3600 * 1000);
 
-  const hours = String(hasOffset ? effectiveDate.getUTCHours() : effectiveDate.getHours()).padStart(2, '0');
-  const minutes = String(hasOffset ? effectiveDate.getUTCMinutes() : effectiveDate.getMinutes()).padStart(2, '0');
-  const seconds = String(hasOffset ? effectiveDate.getUTCSeconds() : effectiveDate.getSeconds()).padStart(2, '0');
+  const hours = String(israelDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(israelDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(israelDate.getUTCSeconds()).padStart(2, '0');
 
   // Format Gregorian date in French
-  const dayIndex = hasOffset ? effectiveDate.getUTCDay() : effectiveDate.getDay();
-  const monthIndex = hasOffset ? effectiveDate.getUTCMonth() : effectiveDate.getMonth();
-  const dayNumber = hasOffset ? effectiveDate.getUTCDate() : effectiveDate.getDate();
-  const yearNumber = hasOffset ? effectiveDate.getUTCFullYear() : effectiveDate.getFullYear();
-  const hourNumber = hasOffset ? effectiveDate.getUTCHours() : effectiveDate.getHours();
+  const dayIndex = israelDate.getUTCDay();
+  const monthIndex = israelDate.getUTCMonth();
+  const dayNumber = israelDate.getUTCDate();
+  const yearNumber = israelDate.getUTCFullYear();
+  const hourNumber = israelDate.getUTCHours();
 
   const dayName = getDayNameFr(dayIndex);
   const monthName = getMonthNameFr(monthIndex);

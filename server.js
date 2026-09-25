@@ -154,10 +154,21 @@ const server = http.createServer(async (req, res) => {
     return handleProxy(targetUrl, res);
   }
 
-  // 5. IP geolocation proxy
+  // 5. IP geolocation proxy (defaults safely to Haifa, Israel)
   if (pathname === '/api/ip') {
-    const targetUrl = 'https://ipwho.is/';
-    return handleProxy(targetUrl, res);
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({
+      success: true,
+      city: 'Haïfa',
+      country: 'Israël',
+      latitude: 32.7940,
+      longitude: 34.9896,
+      timezone: {
+        id: 'Asia/Jerusalem',
+        utc: '+03:00'
+      }
+    }));
+    return;
   }
 
   // --- Static Files Serving ---

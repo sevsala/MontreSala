@@ -6,12 +6,12 @@ const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export const PRESET_LOCATIONS: GeoLocation[] = [
   // Israel
-  { city: 'Petah Tikva', country: 'Israël', latitude: 32.0919, longitude: 34.8851, timezone: 'Asia/Jerusalem', geonameid: 293918 },
-  { city: 'Tel Aviv', country: 'Israël', latitude: 32.0853, longitude: 34.7818, timezone: 'Asia/Jerusalem', geonameid: 293397 },
+  { city: 'Haïfa', country: 'Israël', latitude: 32.7940, longitude: 34.9896, timezone: 'Asia/Jerusalem', geonameid: 294801 },
   { city: 'Jérusalem', country: 'Israël', latitude: 31.7683, longitude: 35.2137, timezone: 'Asia/Jerusalem', geonameid: 281184 },
+  { city: 'Tel Aviv', country: 'Israël', latitude: 32.0853, longitude: 34.7818, timezone: 'Asia/Jerusalem', geonameid: 293397 },
+  { city: 'Petah Tikva', country: 'Israël', latitude: 32.0919, longitude: 34.8851, timezone: 'Asia/Jerusalem', geonameid: 293918 },
   { city: 'Netanya', country: 'Israël', latitude: 32.3215, longitude: 34.8532, timezone: 'Asia/Jerusalem', geonameid: 294071 },
   { city: 'Ashdod', country: 'Israël', latitude: 31.8044, longitude: 34.6553, timezone: 'Asia/Jerusalem', geonameid: 295629 },
-  { city: 'Haïfa', country: 'Israël', latitude: 32.7940, longitude: 34.9896, timezone: 'Asia/Jerusalem', geonameid: 294801 },
   { city: 'Raanana', country: 'Israël', latitude: 32.1848, longitude: 34.8713, timezone: 'Asia/Jerusalem', geonameid: 293703 },
   { city: 'Herzliya', country: 'Israël', latitude: 32.1663, longitude: 34.8433, timezone: 'Asia/Jerusalem', geonameid: 294952 },
 
@@ -35,9 +35,13 @@ export async function detectLocation(): Promise<GeoLocation> {
     const manual = localStorage.getItem(MANUAL_LOCATION_KEY);
     if (manual) {
       const parsed = JSON.parse(manual);
-      if (parsed && parsed.latitude && parsed.longitude) {
+      // Validate that manual location is Israeli
+      if (parsed && (parsed.timezone === 'Asia/Jerusalem' || parsed.country === 'Israël' || parsed.country === 'Israel')) {
         return parsed as GeoLocation;
       }
+      // If corrupted foreign location was stored in cache, clean it up!
+      localStorage.removeItem(MANUAL_LOCATION_KEY);
+      localStorage.removeItem(APP_CONFIG.cacheKeys.location);
     }
   } catch (e) {}
 

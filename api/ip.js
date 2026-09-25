@@ -1,24 +1,22 @@
-const https = require('https');
-
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
   if (req.method === 'OPTIONS') {
     return res.status(204).end();
   }
 
-  const targetUrl = 'https://ipwho.is/';
-
-  https.get(targetUrl, (apiRes) => {
-    let data = '';
-    apiRes.on('data', (chunk) => (data += chunk));
-    apiRes.on('end', () => {
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.status(apiRes.statusCode).send(data);
-    });
-  }).on('error', (err) => {
-    res.status(502).json({ error: 'Proxy request failed', message: err.message });
+  // Always return Israeli location by default
+  return res.status(200).json({
+    success: true,
+    city: 'Haïfa',
+    country: 'Israël',
+    latitude: 32.7940,
+    longitude: 34.9896,
+    timezone: {
+      id: 'Asia/Jerusalem',
+      utc: '+03:00'
+    }
   });
 };
