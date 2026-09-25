@@ -1,0 +1,151 @@
+.appContainer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f6fa;
+  color: #0f172a;
+  box-sizing: border-box;
+}
+
+.backgroundCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(254, 215, 170, 0.5) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(186, 230, 253, 0.45) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 80%, rgba(233, 213, 255, 0.35) 0%, transparent 50%),
+    linear-gradient(160deg, #fdfbf7 0%, #f4f6fa 50%, #ebf1f8 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mainContent {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.clockSection {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.widgetsSection {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shabbatColumn,
+.weatherColumn {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   1. PORTRAIT / NARROW SCREENS (iPad vertical, phones, etc.)
+   ========================================================= */
+@media (orientation: portrait), (max-width: 850px) {
+  .appContainer {
+    height: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mainContent {
+    display: block;
+    height: auto;
+    overflow: visible;
+    padding: 0.5rem 1rem 2rem 1rem;
+  }
+
+  .clockSection {
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+
+  /* Force vertical block stacking so overlapping is impossible */
+  .widgetsSection {
+    display: block;
+  }
+
+  .shabbatColumn {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.25rem;
+  }
+
+  .weatherColumn {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* =========================================================
+   2. LANDSCAPE / WIDE SCREENS (iPad horizontal, desktop, etc.)
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 851px) {
+  .appContainer {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 48px);
+    overflow: hidden;
+    padding: 0.6rem 1.5rem 1.2rem 1.5rem;
+  }
+
+  .clockSection {
+    flex: 1;
+    min-height: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .widgetsSection {
+    flex: 1.1;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .widgetsSection > * + * {
+    margin-left: 1.25rem;
+  }
+
+  .shabbatColumn {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .weatherColumn {
+    flex: 1.35;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shabbatColumn > *,
+  .weatherColumn > * {
+    height: 100%;
+  }
+}

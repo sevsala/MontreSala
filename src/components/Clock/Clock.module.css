@@ -1,0 +1,191 @@
+.clockContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1rem 0.6rem 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+}
+
+.ambientGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 75%;
+  background: radial-gradient(circle, rgba(254, 215, 170, 0.35) 0%, rgba(186, 230, 253, 0.2) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cheerful dynamic greeting pill */
+.greetingPill {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 1.1rem;
+  background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+  border: 1px solid #fcd34d;
+  border-radius: 9999px;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+}
+
+.greetingPill > * + * {
+  margin-left: 0.45rem;
+}
+
+.greetingIcon {
+  font-size: 1.15rem;
+}
+
+.greetingText {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #b45309;
+}
+
+.timeDisplay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.digitsWrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: 'SF Mono', 'Roboto Mono', 'Ubuntu Mono', 'Consolas', 'Menlo', monospace;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum';
+}
+
+.timeSegment {
+  font-size: 16vw;
+  font-size: clamp(4.2rem, 16vw, 11rem);
+  line-height: 1;
+  color: #0f172a;
+  text-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+}
+
+.colon {
+  font-size: 14vw;
+  font-size: clamp(3.8rem, 14vw, 9.8rem);
+  line-height: 1;
+  color: #d97706;
+  margin: 0 0.05em;
+  text-shadow: 0 2px 10px rgba(217, 119, 6, 0.25);
+  animation: colonBlink 1s infinite steps(1, start);
+}
+
+@keyframes colonBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.secondsBlock {
+  display: flex;
+  align-items: baseline;
+  margin-left: 0.15em;
+}
+
+.secondsColon {
+  font-size: 7vw;
+  font-size: clamp(2rem, 7vw, 4.8rem);
+  line-height: 1;
+  color: #d97706;
+  opacity: 0.8;
+}
+
+.secondsDigits {
+  font-size: 8vw;
+  font-size: clamp(2.2rem, 8vw, 5.5rem);
+  line-height: 1;
+  color: #d97706;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(217, 119, 6, 0.2);
+}
+
+.dateBar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.6rem;
+  margin-top: 0.8rem;
+  padding: 0.55rem 1.3rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.dateBar > * {
+  margin: 0.25rem 0.6rem;
+}
+
+.gregorianDate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.12rem;
+  font-size: 2.2vw;
+  font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: 0.01em;
+}
+
+.calendarIcon, .menorahIcon {
+  font-size: 1.15em;
+  margin-right: 0.4rem;
+}
+
+.dateText {
+  color: #1e293b;
+}
+
+.hebrewDateRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.05rem;
+  font-size: 2vw;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: #0369a1;
+}
+
+.hebrewDateHebrew {
+  font-weight: 800;
+  color: #b45309;
+  margin-right: 0.4rem;
+}
+
+.hebrewDateTranslit {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.9em;
+}

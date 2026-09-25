@@ -1,0 +1,21 @@
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #f87171;
+  font-size: 0.875rem;
+  min-height: 80px;
+}
+
+.errorIcon {
+  font-size: 1.25rem;
+}
+
+.errorText {
+  font-weight: 500;
+}

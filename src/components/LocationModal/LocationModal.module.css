@@ -1,0 +1,264 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.modal {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titleGroup > * + * {
+  margin-left: 0.5rem;
+}
+
+.modalIcon {
+  font-size: 1.3rem;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+}
+
+.closeBtn:hover, .closeBtn:active {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.currentBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.9rem 1.4rem 0.4rem 1.4rem;
+  padding: 0.45rem 0.8rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.currentBadge > * + * {
+  margin-left: 0.5rem;
+}
+
+.currentLabel {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.currentValue {
+  color: #0369a1;
+  font-weight: 800;
+}
+
+.manualTag {
+  background: #0284c7;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.searchSection {
+  padding: 0.8rem 1.4rem 0.4rem 1.4rem;
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  color: #0f172a;
+  font-size: 1rem;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);
+  background: #ffffff;
+}
+
+.searchingText {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+.sectionTitle {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.resultsList {
+  padding: 0.6rem 1.4rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.4rem;
+  color: #0f172a;
+  cursor: pointer;
+  text-align: left;
+}
+
+.resultItem:hover, .resultItem:active {
+  background: #f0f9ff;
+  border-color: #0284c7;
+}
+
+.cityNameBold {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.countrySub {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.presetsSection {
+  padding: 0.6rem 1.4rem 1rem 1.4rem;
+  overflow-y: auto;
+  max-height: 220px;
+}
+
+.presetGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.presetChip {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 0.45rem 0.9rem;
+  color: #334155;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0.25rem 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.presetChip:hover, .presetChip:active {
+  background: #e0f2fe;
+  border-color: #0284c7;
+  color: #0369a1;
+}
+
+.presetSelected {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.4rem;
+  border-top: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+
+.resetBtn {
+  background: transparent;
+  border: 1px dashed #94a3b8;
+  border-radius: 6px;
+  color: #64748b;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.resetBtn:hover, .resetBtn:active {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.cancelBtn {
+  background: #0f172a;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cancelBtn:hover, .cancelBtn:active {
+  background: #1e293b;
+}

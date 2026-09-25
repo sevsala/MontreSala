@@ -1,0 +1,242 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #fed7aa;
+  border-radius: 18px;
+  padding: 1.1rem 1.3rem;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 2px 10px rgba(245, 158, 11, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.isShabbatActive {
+  border-color: #f59e0b;
+  box-shadow: 0 10px 35px rgba(245, 158, 11, 0.2), inset 0 0 20px rgba(254, 243, 199, 0.5);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titleGroup > * + * {
+  margin-left: 0.5rem;
+}
+
+.titleIcon {
+  font-size: 1.3rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #0f172a;
+  text-transform: uppercase;
+}
+
+.statusShabbatNow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  background: linear-gradient(135deg, #fef3c7, #fee2e2);
+  border: 1px solid #fcd34d;
+  border-radius: 9999px;
+  color: #92400e;
+  font-size: 0.88rem;
+  font-weight: 800;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+  animation: gentlePulse 2.5s infinite ease-in-out;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 14px 2px rgba(245, 158, 11, 0.25);
+  }
+}
+
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #f59e0b;
+}
+
+.statusCountdown {
+  padding: 0.3rem 0.85rem;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 9999px;
+  color: #c2410c;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.timesGrid {
+  display: flex;
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.timesGrid > * + * {
+  margin-left: 0.9rem;
+}
+
+.timeCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.candleCard {
+  background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.08);
+}
+
+.havdalahCard {
+  background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 100%);
+  border: 1px solid #ddd6fe;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.06);
+}
+
+.cardIconRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.cardIconRow > * + * {
+  margin-left: 0.4rem;
+}
+
+.flameIcon, .moonIcon {
+  font-size: 1.1rem;
+}
+
+.cardLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cardTimeValue {
+  font-family: 'SF Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-size: 2.2rem;
+  font-size: 3.8vw;
+  font-size: clamp(1.8rem, 3.8vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0.2rem 0;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum';
+}
+
+.candleTimeValue {
+  color: #b45309;
+}
+
+.havdalahTimeValue {
+  color: #4338ca;
+}
+
+.cardSub {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 0.15rem;
+  font-weight: 600;
+}
+
+.footerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.65rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.footerInfo > * + * {
+  margin-top: 0.5rem;
+}
+
+.parashaBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.parashaBlock > * + * {
+  margin-left: 0.5rem;
+}
+
+.infoLabel {
+  font-weight: 700;
+  color: #64748b;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.parashaText {
+  color: #b45309;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.holidayBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.holidayBadge {
+  background: #fce7f3;
+  color: #be185d;
+  border: 1px solid #fbcfe8;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.holidayTitle {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.skeleton {
+  padding: 2rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9rem;
+}
