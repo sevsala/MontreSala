@@ -4,6 +4,7 @@ export interface GeoLocation {
   latitude: number;
   longitude: number;
   timezone: string;
+  geonameid?: number;
 }
 
 export interface ShabbatTimes {
@@ -15,6 +16,7 @@ export interface ShabbatTimes {
     time: string; // "19:35"
     dateStr: string; // ISO date
   };
+  candleLightingMinutesBeforeSunset?: number;
   parasha?: string;
   parashaHebrew?: string;
   hebrewDateStr?: string;
@@ -27,6 +29,7 @@ export interface ShabbatTimes {
   };
   isShabbatNow: boolean;
   timeUntilCandles?: string;
+  utcOffsetSeconds?: number;
   lastUpdated: number;
 }
 
@@ -49,5 +52,7 @@ export interface WeatherData {
   isDay: boolean;
   windSpeed: number;
   daily: DailyForecast[];
+  utcOffsetSeconds?: number;
   lastUpdated: number;
 }
+

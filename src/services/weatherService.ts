@@ -66,6 +66,7 @@ export async function fetchWeatherData(loc: GeoLocation): Promise<WeatherData> {
       isDay: current.is_day === 1,
       windSpeed: Math.round(current.windspeed ?? 0),
       daily,
+      utcOffsetSeconds: typeof data.utc_offset_seconds === 'number' ? data.utc_offset_seconds : undefined,
       lastUpdated: Date.now()
     };
 

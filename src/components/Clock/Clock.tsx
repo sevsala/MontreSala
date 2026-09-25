@@ -5,11 +5,13 @@ import styles from './Clock.module.css';
 interface ClockProps {
   hebrewDateStr?: string;
   hebrewDateHebrew?: string;
+  utcOffsetSeconds?: number;
 }
 
 export const Clock: React.FC<ClockProps> = ({
   hebrewDateStr,
-  hebrewDateHebrew
+  hebrewDateHebrew,
+  utcOffsetSeconds
 }) => {
   const [time, setTime] = useState(new Date());
 
@@ -30,19 +32,28 @@ export const Clock: React.FC<ClockProps> = ({
     return () => clearTimeout(timerId);
   }, []);
 
-  const hours = String(time.getHours()).padStart(2, '0');
-  const minutes = String(time.getMinutes()).padStart(2, '0');
-  const seconds = String(time.getSeconds()).padStart(2, '0');
+  const hasOffset = typeof utcOffsetSeconds === 'number';
+  const effectiveDate = hasOffset
+    ? new Date(time.getTime() + (utcOffsetSeconds as number) * 1000)
+    : time;
+
+  const hours = String(hasOffset ? effectiveDate.getUTCHours() : effectiveDate.getHours()).padStart(2, '0');
+  const minutes = String(hasOffset ? effectiveDate.getUTCMinutes() : effectiveDate.getMinutes()).padStart(2, '0');
+  const seconds = String(hasOffset ? effectiveDate.getUTCSeconds() : effectiveDate.getSeconds()).padStart(2, '0');
 
   // Format Gregorian date in French
-  const dayName = getDayNameFr(time.getDay());
-  const monthName = getMonthNameFr(time.getMonth());
-  const dayNumber = time.getDate();
-  const yearNumber = time.getFullYear();
+  const dayIndex = hasOffset ? effectiveDate.getUTCDay() : effectiveDate.getDay();
+  const monthIndex = hasOffset ? effectiveDate.getUTCMonth() : effectiveDate.getMonth();
+  const dayNumber = hasOffset ? effectiveDate.getUTCDate() : effectiveDate.getDate();
+  const yearNumber = hasOffset ? effectiveDate.getUTCFullYear() : effectiveDate.getFullYear();
+  const hourNumber = hasOffset ? effectiveDate.getUTCHours() : effectiveDate.getHours();
+
+  const dayName = getDayNameFr(dayIndex);
+  const monthName = getMonthNameFr(monthIndex);
   const fullGregorianDate = `${dayName} ${dayNumber} ${monthName} ${yearNumber}`;
 
   // Cheerful greeting adapted to time and Jewish week
-  const greeting = getCheerfulGreeting(time);
+  const greeting = getCheerfulGreeting(dayIndex, hourNumber);
 
   return (
     <div className={styles.clockContainer}>
@@ -128,10 +139,7 @@ function getMonthNameFr(monthIndex: number): string {
   return months[monthIndex];
 }
 
-function getCheerfulGreeting(date: Date): { text: string; icon: string } {
-  const day = date.getDay(); // 5 = Friday, 6 = Saturday
-  const hour = date.getHours();
-
+function getCheerfulGreeting(day: number, hour: number): { text: string; icon: string } {
   if (day === 5 && hour >= 13) {
     return { text: 'Chabbat Chalom !', icon: '🕯️✨' };
   }

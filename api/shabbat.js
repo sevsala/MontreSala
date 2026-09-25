@@ -24,12 +24,33 @@ module.exports = (req, res) => {
     return res.status(204).end();
   }
 
-  const { latitude, longitude, lat, lon, tzid, m = '50', b = '18' } = req.query;
-  const finalLat = latitude || lat || '32.0919';
-  const finalLon = longitude || lon || '34.8851';
-  const safeTz = resolveSafeTimezone(tzid, finalLat, finalLon);
+  const { geonameid, latitude, longitude, lat, lon, tzid } = req.query;
 
-  const targetUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${finalLat}&longitude=${finalLon}&tzid=${encodeURIComponent(safeTz)}&m=${m}&b=${b}&M=on&lg=s`;
+  let targetUrl;
+  if (geonameid) {
+    targetUrl = `https://www.hebcal.com/shabbat?cfg=json&geonameid=${geonameid}&M=on&lg=s`;
+  } else {
+    const finalLat = latitude || lat || '32.0919';
+    const finalLon = longitude || lon || '34.8851';
+    const safeTz = resolveSafeTimezone(tzid, finalLat, finalLon);
+
+    let b = req.query.b;
+    if (!b) {
+      const numLat = parseFloat(finalLat);
+      const numLon = parseFloat(finalLon);
+      if (numLat >= 31.70 && numLat <= 31.85 && numLon >= 35.15 && numLon <= 35.28) {
+        b = '40'; // Jerusalem
+      } else if (numLat >= 32.75 && numLat <= 32.86 && numLon >= 34.93 && numLon <= 35.08) {
+        b = '30'; // Haifa
+      } else if (numLat >= 29.0 && numLat <= 34.0 && numLon >= 34.0 && numLon <= 36.0) {
+        b = '20'; // Central Israel
+      } else {
+        b = '18';
+      }
+    }
+
+    targetUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${finalLat}&longitude=${finalLon}&tzid=${encodeURIComponent(safeTz)}&b=${b}&M=on&lg=s`;
+  }
 
   https.get(targetUrl, (apiRes) => {
     let data = '';

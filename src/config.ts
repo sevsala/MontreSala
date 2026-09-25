@@ -7,10 +7,11 @@ export const APP_CONFIG = {
   // Fallback location if auto-detection (IP) is unavailable
   defaultLocation: {
     city: 'Jérusalem',
-    country: 'Israel',
+    country: 'Israël',
     latitude: 31.7683,
     longitude: 35.2137,
-    timezone: 'Asia/Jerusalem'
+    timezone: 'Asia/Jerusalem',
+    geonameid: 281184
   } as GeoLocation,
 
   // Set to true to automatically detect location via IP address on startup

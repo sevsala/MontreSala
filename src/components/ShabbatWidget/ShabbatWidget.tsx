@@ -62,17 +62,19 @@ export const ShabbatWidget: React.FC<ShabbatWidgetProps> = ({
             <span className={styles.cardLabel}>Allumage des bougies</span>
           </div>
           <div className={`${styles.cardTimeValue} ${styles.candleTimeValue}`}>{candleTime}</div>
-          <div className={styles.cardSub}>Vendredi (18 min avant coucher)</div>
+          <div className={styles.cardSub}>
+            Vendredi ({shabbatTimes?.candleLightingMinutesBeforeSunset || 18} min avant coucher)
+          </div>
         </div>
 
         {/* Havdalah */}
         <div className={`${styles.timeCard} ${styles.havdalahCard}`}>
           <div className={styles.cardIconRow}>
             <span className={styles.moonIcon}>✨</span>
-            <span className={styles.cardLabel}>Havdalah / Fin</span>
+            <span className={styles.cardLabel}>Sortie de Chabbat</span>
           </div>
           <div className={`${styles.cardTimeValue} ${styles.havdalahTimeValue}`}>{havdalahTime}</div>
-          <div className={styles.cardSub}>Samedi soir (50 min)</div>
+          <div className={styles.cardSub}>Samedi soir (3 étoiles)</div>
         </div>
       </div>
 

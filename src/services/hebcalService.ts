@@ -12,6 +12,41 @@ function getSafeTimezone(tz?: string, lat?: number, lon?: number): string {
   return 'Asia/Jerusalem';
 }
 
+function getCityCandleLightingMinutes(loc: GeoLocation): number {
+  const cityName = (loc.city || '').toLowerCase();
+  const lat = loc.latitude;
+  const lon = loc.longitude;
+
+  // Jerusalem: 40 minutes (Minhag Yerushalayim)
+  if (
+    cityName.includes('jerusalem') ||
+    cityName.includes('jérusalem') ||
+    (lat >= 31.70 && lat <= 31.85 && lon >= 35.15 && lon <= 35.28)
+  ) {
+    return 40;
+  }
+
+  // Haifa: 30 minutes (Minhag Haifa)
+  if (
+    cityName.includes('haifa') ||
+    cityName.includes('haïfa') ||
+    (lat >= 32.75 && lat <= 32.86 && lon >= 34.93 && lon <= 35.08)
+  ) {
+    return 30;
+  }
+
+  // Other cities in Israel: 20 minutes (Tel Aviv, Petah Tikva, etc.)
+  if (
+    loc.country === 'Israël' ||
+    loc.country === 'Israel' ||
+    (lat >= 29.4 && lat <= 33.4 && lon >= 34.2 && lon <= 35.9)
+  ) {
+    return 20;
+  }
+
+  return 18;
+}
+
 export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes> {
   const cached = getCachedShabbat();
 
@@ -20,21 +55,26 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
     const lon = loc.longitude.toFixed(4);
     const safeTz = getSafeTimezone(loc.timezone, loc.latitude, loc.longitude);
     const tzid = encodeURIComponent(safeTz);
-    const m = APP_CONFIG.shabbat.havdalahMinutesPastSunset;
-    const b = APP_CONFIG.shabbat.candleLightingMinutesBeforeSunset;
+    const b = getCityCandleLightingMinutes(loc);
 
     let res: Response | null = null;
 
     // 1. Try local proxy first (immune to iOS 9 Let's Encrypt certificate failure)
     try {
-      res = await fetch(`/api/shabbat?latitude=${lat}&longitude=${lon}&tzid=${tzid}&m=${m}&b=${b}`);
+      if (loc.geonameid) {
+        res = await fetch(`/api/shabbat?geonameid=${loc.geonameid}&M=on`);
+      } else {
+        res = await fetch(`/api/shabbat?latitude=${lat}&longitude=${lon}&tzid=${tzid}&b=${b}&M=on`);
+      }
     } catch (e) {
       // Local proxy failed or not available, fallback to direct
     }
 
     // 2. Direct fallback
     if (!res || !res.ok) {
-      const directUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${tzid}&m=${m}&b=${b}&M=on&lg=s`;
+      const directUrl = loc.geonameid
+        ? `https://www.hebcal.com/shabbat?cfg=json&geonameid=${loc.geonameid}&M=on&lg=s`
+        : `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${tzid}&b=${b}&M=on&lg=s`;
       res = await fetch(directUrl);
     }
 
@@ -125,9 +165,15 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
       timeUntilCandles = computeTimeUntil(candleLighting.dateStr);
     }
 
+    const candleMinutes = loc.geonameid ? getCityCandleLightingMinutes(loc) : b;
+    const offsetSeconds =
+      getUtcOffsetSecondsFromIso(activeCandle?.date) ||
+      getUtcOffsetSecondsFromIso(activeHavdalah?.date);
+
     const result: ShabbatTimes = {
       candleLighting,
       havdalah,
+      candleLightingMinutesBeforeSunset: candleMinutes,
       parasha,
       parashaHebrew,
       hebrewDateStr: hebrewDateInfo.translit,
@@ -135,6 +181,7 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
       upcomingHoliday,
       isShabbatNow,
       timeUntilCandles,
+      utcOffsetSeconds: offsetSeconds,
       lastUpdated: Date.now()
     };
 
@@ -180,6 +227,13 @@ async function fetchHebrewDate(date: Date): Promise<{ translit: string; hebrew: 
 
 function formatTimeFromDateString(isoString: string): string {
   try {
+    // 1. Direct regex extract from ISO-8601 (e.g. "2026-09-25T18:13:00+03:00" -> "18:13")
+    // Hebcal computes the exact civil time in that city. Extracting HH:mm directly preserves
+    // the local time and avoids unwanted timezone conversion to the iPad's system timezone.
+    const match = isoString.match(/T(\d{1,2}:\d{2})/);
+    if (match) {
+      return match[1];
+    }
     const d = new Date(isoString);
     const hours = String(d.getHours()).padStart(2, '0');
     const minutes = String(d.getMinutes()).padStart(2, '0');
@@ -187,6 +241,18 @@ function formatTimeFromDateString(isoString: string): string {
   } catch (e) {
     return '--:--';
   }
+}
+
+function getUtcOffsetSecondsFromIso(isoString?: string): number | undefined {
+  if (!isoString) return undefined;
+  const match = isoString.match(/([+-])(\d{2}):(\d{2})$/);
+  if (match) {
+    const sign = match[1] === '-' ? -1 : 1;
+    const hours = parseInt(match[2], 10);
+    const mins = parseInt(match[3], 10);
+    return sign * (hours * 3600 + mins * 60);
+  }
+  return undefined;
 }
 
 function checkIsShabbat(candleDateStr?: string, havdalahDateStr?: string): boolean {
