@@ -1,8 +1,11 @@
-import { GeoLocation } from './types';
+import { GeoLocation, ThemeId } from './types';
 
 export const APP_CONFIG = {
   // Title & App Name
   appName: 'Montre Sala Kiosk',
+
+  // Preset theme: 'jerusalem' (Jerusalem Stone & Honey) | 'midnight' | 'glacier' | 'emerald' | 'terracotta' | 'auto'
+  theme: 'jerusalem' as ThemeId,
 
   // Default location in Israel: Haïfa (or user can switch to Jerusalem, Tel Aviv, etc.)
   defaultLocation: {
@@ -44,6 +47,7 @@ export const APP_CONFIG = {
   cacheKeys: {
     location: 'montre_cached_location',
     shabbat: 'montre_cached_shabbat',
-    weather: 'montre_cached_weather'
+    weather: 'montre_cached_weather',
+    theme: 'montre_cached_theme'
   }
 };

@@ -56,3 +56,19 @@ export interface WeatherData {
   lastUpdated: number;
 }
 
+export type ThemeId = 'jerusalem' | 'midnight' | 'glacier' | 'emerald' | 'terracotta' | 'auto';
+
+export interface ThemeOption {
+  id: ThemeId;
+  name: string;
+  subtitle: string;
+  icon: string;
+  isDark: boolean;
+  previewColors: {
+    bg: string;
+    card: string;
+    accent: string;
+    text: string;
+  };
+}
+

@@ -93,8 +93,11 @@ const server = http.createServer(async (req, res) => {
   // 1. Shabbat times proxy
   if (pathname === '/api/shabbat') {
     const geonameid = parsedUrl.query.geonameid;
+    const { gy, gm, gd } = parsedUrl.query;
+    const dateParams = gy && gm && gd ? `&gy=${gy}&gm=${gm}&gd=${gd}` : '';
+
     if (geonameid) {
-      const targetUrl = `https://www.hebcal.com/shabbat?cfg=json&geonameid=${geonameid}&M=on&lg=s`;
+      const targetUrl = `https://www.hebcal.com/shabbat?cfg=json&geonameid=${geonameid}&M=on&lg=s${dateParams}`;
       return handleProxy(targetUrl, res);
     }
 
@@ -117,7 +120,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
-    const targetUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${encodeURIComponent(tzid)}&b=${b}&M=on&lg=s`;
+    const targetUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${encodeURIComponent(tzid)}&b=${b}&M=on&lg=s${dateParams}`;
     return handleProxy(targetUrl, res);
   }
 

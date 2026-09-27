@@ -1,0 +1,236 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--modal-bg, #ffffff);
+  border: 1px solid var(--modal-border, #e7dfd5);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--modal-text, #1c1917);
+  transition: all 0.3s ease;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--card-header-border, #f1f5f9);
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titleGroup > * + * {
+  margin-left: 0.5rem;
+}
+
+.modalIcon {
+  font-size: 1.3rem;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--modal-title, #1c1917);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: var(--modal-subtext, #78716c);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover, .closeBtn:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.themeList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.2rem 1.4rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.themeOptionCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  background: var(--modal-item-bg, #fdfbf7);
+  border: 1.5px solid var(--modal-item-border, #e7dfd5);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.themeOptionCard:hover {
+  transform: translateY(-1px);
+  border-color: var(--clock-colon, #d97706);
+}
+
+.selectedCard {
+  border-color: var(--clock-colon, #d97706);
+  background: var(--card-bg, #ffffff);
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.15);
+}
+
+.optionLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.optionLeft > * + * {
+  margin-left: 0.85rem;
+}
+
+.optionIcon {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 12px;
+}
+
+.optionMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.optionName {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--modal-text, #1c1917);
+}
+
+.optionSubtitle {
+  font-size: 0.8rem;
+  color: var(--modal-subtext, #78716c);
+}
+
+.optionRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.optionRight > * + * {
+  margin-left: 0.75rem;
+}
+
+.palettePreview {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.4rem;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 9999px;
+}
+
+.palettePreview > * + * {
+  margin-left: 0.25rem;
+}
+
+.colorSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.activeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--clock-colon, #d97706);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.55rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.activeBadge > * + * {
+  margin-left: 0.25rem;
+}
+
+.modalFooter {
+  padding: 0.9rem 1.4rem;
+  border-top: 1px solid var(--card-header-border, #f1f5f9);
+  background: rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerHint {
+  font-size: 0.78rem;
+  color: var(--modal-subtext, #78716c);
+}
+
+.footerHint code {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.doneBtn {
+  background: var(--clock-colon, #d97706);
+  color: #ffffff;
+  border: none;
+  padding: 0.45rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.doneBtn:hover {
+  opacity: 0.9;
+}

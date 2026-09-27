@@ -1,0 +1,405 @@
+/* ==========================================================================
+   MontreSala Theme Palette System
+   Configurable presets:
+   1. jerusalem (Default: Jerusalem Stone & Honey)
+   2. midnight (Midnight Luxury & Gold - OLED dark)
+   3. glacier (Glacier & Deep Navy)
+   4. emerald (Emerald & Brushed Brass)
+   5. terracotta (Sunset Terracotta & Rosewood)
+   ========================================================================== */
+
+:root,
+[data-theme="jerusalem"] {
+  --theme-is-dark: 0;
+
+  /* Canvas backgrounds */
+  --bg-canvas: linear-gradient(160deg, #faf7f2 0%, #f3ede2 50%, #eae2d3 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(251, 191, 36, 0.28) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(217, 119, 6, 0.15) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(217, 119, 6, 0.1) 40%, transparent 70%);
+
+  /* Header */
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --header-border: #e7dfd5;
+  --header-tag-bg: #ffffff;
+  --header-tag-border: #d6cbbe;
+  --header-text: #1c1917;
+
+  /* Clock */
+  --clock-digits: #1c1917;
+  --clock-digits-shadow: 0 4px 20px rgba(28, 25, 23, 0.08);
+  --clock-colon: #d97706;
+  --clock-colon-shadow: 0 2px 10px rgba(217, 119, 6, 0.25);
+  --clock-seconds: #d97706;
+  --greeting-pill-bg: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+  --greeting-pill-border: #fde047;
+  --greeting-pill-text: #92400e;
+  --greeting-pill-shadow: 0 4px 15px rgba(217, 119, 6, 0.12);
+
+  /* Date Bar */
+  --date-bar-bg: rgba(255, 255, 255, 0.95);
+  --date-bar-border: #e7dfd5;
+  --date-bar-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  --date-gregorian-text: #1c1917;
+  --date-hebrew-text: #b45309;
+  --date-translit-text: #78716c;
+
+  /* Cards */
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --card-border: #e7dfd5;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 2px 10px rgba(217, 119, 6, 0.06);
+  --card-title-color: #1c1917;
+  --card-header-border: #f3ede2;
+  --card-sublabel: #78716c;
+
+  /* Shabbat Card */
+  --shabbat-card-border: #fed7aa;
+  --candle-card-bg: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+  --candle-card-border: #fde68a;
+  --candle-time-color: #b45309;
+  --candle-label-color: #78716c;
+  --havdalah-card-bg: linear-gradient(145deg, #faf5ff 0%, #ede9fe 100%);
+  --havdalah-card-border: #ddd6fe;
+  --havdalah-time-color: #4338ca;
+  --havdalah-label-color: #78716c;
+  --parasha-text-color: #b45309;
+
+  /* Weather Card */
+  --weather-card-border: #e7dfd5;
+  --weather-temp-color: #d97706;
+  --weather-summary-bg: #ffffff;
+  --weather-summary-border: #e7dfd5;
+  --weather-summary-text: #1c1917;
+  --weather-day-card-bg: #ffffff;
+  --weather-day-card-border: #e7dfd5;
+  --weather-day-title: #78716c;
+  --weather-today-bg: linear-gradient(180deg, #fef3c7 0%, #e0f2fe 100%);
+  --weather-today-border: #fcd34d;
+  --weather-today-title: #b45309;
+  --weather-temp-max: #1c1917;
+  --weather-temp-min: #0284c7;
+  --weather-precip-bg: #e0f2fe;
+  --weather-precip-color: #0284c7;
+
+  /* Modal */
+  --modal-bg: #ffffff;
+  --modal-border: #e7dfd5;
+  --modal-title: #1c1917;
+  --modal-text: #1c1917;
+  --modal-subtext: #78716c;
+  --modal-item-bg: #fdfbf7;
+  --modal-item-border: #e7dfd5;
+}
+
+/* ==========================================================================
+   2. Midnight Luxury & Gold (OLED Dark Mode)
+   ========================================================================== */
+[data-theme="midnight"] {
+  --theme-is-dark: 1;
+
+  --bg-canvas: linear-gradient(160deg, #070a10 0%, #0c121e 50%, #080c14 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(245, 158, 11, 0.2) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(56, 189, 248, 0.12) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(251, 191, 36, 0.12) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(15, 23, 42, 0) 70%);
+
+  --header-bg: rgba(10, 15, 26, 0.92);
+  --header-border: rgba(255, 255, 255, 0.1);
+  --header-tag-bg: rgba(20, 30, 48, 0.85);
+  --header-tag-border: rgba(245, 158, 11, 0.35);
+  --header-text: #f8fafc;
+
+  --clock-digits: #f8fafc;
+  --clock-digits-shadow: 0 4px 25px rgba(245, 158, 11, 0.15);
+  --clock-colon: #f59e0b;
+  --clock-colon-shadow: 0 2px 14px rgba(245, 158, 11, 0.5);
+  --clock-seconds: #f59e0b;
+  --greeting-pill-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+  --greeting-pill-border: rgba(245, 158, 11, 0.5);
+  --greeting-pill-text: #fbbf24;
+  --greeting-pill-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  --date-bar-bg: rgba(15, 23, 42, 0.88);
+  --date-bar-border: rgba(245, 158, 11, 0.25);
+  --date-bar-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --date-gregorian-text: #f1f5f9;
+  --date-hebrew-text: #fbbf24;
+  --date-translit-text: #94a3b8;
+
+  --card-bg: rgba(13, 20, 36, 0.88);
+  --card-border: rgba(245, 158, 11, 0.3);
+  --card-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 2px 15px rgba(245, 158, 11, 0.1);
+  --card-title-color: #f8fafc;
+  --card-header-border: rgba(255, 255, 255, 0.08);
+  --card-sublabel: #94a3b8;
+
+  --shabbat-card-border: rgba(245, 158, 11, 0.4);
+  --candle-card-bg: linear-gradient(145deg, rgba(45, 30, 15, 0.95) 0%, rgba(70, 45, 15, 0.85) 100%);
+  --candle-card-border: rgba(245, 158, 11, 0.5);
+  --candle-time-color: #fcd34d;
+  --candle-label-color: #fde68a;
+  --havdalah-card-bg: linear-gradient(145deg, rgba(25, 25, 60, 0.95) 0%, rgba(35, 30, 80, 0.85) 100%);
+  --havdalah-card-border: rgba(165, 180, 252, 0.4);
+  --havdalah-time-color: #c7d2fe;
+  --havdalah-label-color: #ddd6fe;
+  --parasha-text-color: #fbbf24;
+
+  --weather-card-border: rgba(56, 189, 248, 0.25);
+  --weather-temp-color: #38bdf8;
+  --weather-summary-bg: rgba(20, 30, 52, 0.85);
+  --weather-summary-border: rgba(56, 189, 248, 0.35);
+  --weather-summary-text: #f8fafc;
+  --weather-day-card-bg: rgba(20, 30, 52, 0.8);
+  --weather-day-card-border: rgba(255, 255, 255, 0.09);
+  --weather-day-title: #94a3b8;
+  --weather-today-bg: linear-gradient(180deg, rgba(65, 45, 15, 0.9) 0%, rgba(20, 45, 75, 0.9) 100%);
+  --weather-today-border: rgba(245, 158, 11, 0.5);
+  --weather-today-title: #fcd34d;
+  --weather-temp-max: #f8fafc;
+  --weather-temp-min: #38bdf8;
+  --weather-precip-bg: rgba(56, 189, 248, 0.2);
+  --weather-precip-color: #7dd3fc;
+
+  --modal-bg: #0f172a;
+  --modal-border: rgba(245, 158, 11, 0.3);
+  --modal-title: #f8fafc;
+  --modal-text: #f8fafc;
+  --modal-subtext: #94a3b8;
+  --modal-item-bg: rgba(255, 255, 255, 0.05);
+  --modal-item-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   3. Glacier & Deep Navy (Scandinavian Minimalist)
+   ========================================================================== */
+[data-theme="glacier"] {
+  --theme-is-dark: 0;
+
+  --bg-canvas: linear-gradient(160deg, #f0f6fc 0%, #e2ecf7 50%, #d8e5f3 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(56, 189, 248, 0.32) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(14, 165, 233, 0.2) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(125, 211, 252, 0.22) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(14, 165, 233, 0.1) 40%, transparent 70%);
+
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --header-border: #cfe2f3;
+  --header-tag-bg: #ffffff;
+  --header-tag-border: #bae6fd;
+  --header-text: #0b2545;
+
+  --clock-digits: #0b2545;
+  --clock-digits-shadow: 0 4px 20px rgba(11, 37, 69, 0.08);
+  --clock-colon: #0284c7;
+  --clock-colon-shadow: 0 2px 12px rgba(2, 132, 199, 0.3);
+  --clock-seconds: #0284c7;
+  --greeting-pill-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  --greeting-pill-border: #7dd3fc;
+  --greeting-pill-text: #0369a1;
+  --greeting-pill-shadow: 0 4px 15px rgba(2, 132, 199, 0.12);
+
+  --date-bar-bg: rgba(255, 255, 255, 0.95);
+  --date-bar-border: #bae6fd;
+  --date-bar-shadow: 0 6px 20px rgba(11, 37, 69, 0.05);
+  --date-gregorian-text: #0b2545;
+  --date-hebrew-text: #0284c7;
+  --date-translit-text: #64748b;
+
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --card-border: #bae6fd;
+  --card-shadow: 0 10px 30px rgba(11, 37, 69, 0.05), 0 2px 10px rgba(2, 132, 199, 0.08);
+  --card-title-color: #0b2545;
+  --card-header-border: #e2ecf7;
+  --card-sublabel: #64748b;
+
+  --shabbat-card-border: #fed7aa;
+  --candle-card-bg: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+  --candle-card-border: #fde68a;
+  --candle-time-color: #b45309;
+  --candle-label-color: #64748b;
+  --havdalah-card-bg: linear-gradient(145deg, #f0f9ff 0%, #e0f2fe 100%);
+  --havdalah-card-border: #bae6fd;
+  --havdalah-time-color: #0284c7;
+  --havdalah-label-color: #64748b;
+  --parasha-text-color: #0284c7;
+
+  --weather-card-border: #bae6fd;
+  --weather-temp-color: #0284c7;
+  --weather-summary-bg: #ffffff;
+  --weather-summary-border: #bae6fd;
+  --weather-summary-text: #0b2545;
+  --weather-day-card-bg: #ffffff;
+  --weather-day-card-border: #e2ecf7;
+  --weather-day-title: #64748b;
+  --weather-today-bg: linear-gradient(180deg, #e0f2fe 0%, #dbeafe 100%);
+  --weather-today-border: #38bdf8;
+  --weather-today-title: #0369a1;
+  --weather-temp-max: #0b2545;
+  --weather-temp-min: #0284c7;
+  --weather-precip-bg: #e0f2fe;
+  --weather-precip-color: #0284c7;
+
+  --modal-bg: #ffffff;
+  --modal-border: #bae6fd;
+  --modal-title: #0b2545;
+  --modal-text: #0b2545;
+  --modal-subtext: #64748b;
+  --modal-item-bg: #f8fafc;
+  --modal-item-border: #e2e8f0;
+}
+
+/* ==========================================================================
+   4. Emerald & Brass (Royal Horlogerie)
+   ========================================================================== */
+[data-theme="emerald"] {
+  --theme-is-dark: 1;
+
+  --bg-canvas: linear-gradient(160deg, #051a14 0%, #08261e 50%, #03130e 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(234, 179, 8, 0.2) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(16, 185, 129, 0.16) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(234, 179, 8, 0.2) 0%, rgba(5, 26, 20, 0) 70%);
+
+  --header-bg: rgba(5, 26, 20, 0.92);
+  --header-border: rgba(234, 179, 8, 0.25);
+  --header-tag-bg: rgba(10, 40, 32, 0.85);
+  --header-tag-border: rgba(234, 179, 8, 0.4);
+  --header-text: #fefce8;
+
+  --clock-digits: #fef9c3;
+  --clock-digits-shadow: 0 4px 25px rgba(234, 179, 8, 0.15);
+  --clock-colon: #eab308;
+  --clock-colon-shadow: 0 2px 14px rgba(234, 179, 8, 0.5);
+  --clock-seconds: #eab308;
+  --greeting-pill-bg: linear-gradient(135deg, rgba(8, 38, 30, 0.9) 0%, rgba(4, 20, 16, 0.95) 100%);
+  --greeting-pill-border: rgba(234, 179, 8, 0.5);
+  --greeting-pill-text: #fef08a;
+  --greeting-pill-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  --date-bar-bg: rgba(6, 30, 22, 0.9);
+  --date-bar-border: rgba(234, 179, 8, 0.3);
+  --date-bar-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --date-gregorian-text: #fefce8;
+  --date-hebrew-text: #facc15;
+  --date-translit-text: #a7f3d0;
+
+  --card-bg: rgba(6, 28, 22, 0.9);
+  --card-border: rgba(234, 179, 8, 0.35);
+  --card-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 2px 15px rgba(234, 179, 8, 0.1);
+  --card-title-color: #fefce8;
+  --card-header-border: rgba(255, 255, 255, 0.08);
+  --card-sublabel: #94a3b8;
+
+  --shabbat-card-border: rgba(234, 179, 8, 0.4);
+  --candle-card-bg: linear-gradient(145deg, rgba(45, 35, 10, 0.95) 0%, rgba(65, 45, 10, 0.85) 100%);
+  --candle-card-border: rgba(234, 179, 8, 0.5);
+  --candle-time-color: #fef08a;
+  --candle-label-color: #fef9c3;
+  --havdalah-card-bg: linear-gradient(145deg, rgba(15, 35, 35, 0.95) 0%, rgba(20, 50, 45, 0.85) 100%);
+  --havdalah-card-border: rgba(94, 234, 212, 0.35);
+  --havdalah-time-color: #99f6e4;
+  --havdalah-label-color: #ccfbf1;
+  --parasha-text-color: #facc15;
+
+  --weather-card-border: rgba(94, 234, 212, 0.25);
+  --weather-temp-color: #5eead4;
+  --weather-summary-bg: rgba(10, 40, 32, 0.85);
+  --weather-summary-border: rgba(94, 234, 212, 0.35);
+  --weather-summary-text: #fefce8;
+  --weather-day-card-bg: rgba(10, 40, 32, 0.8);
+  --weather-day-card-border: rgba(255, 255, 255, 0.09);
+  --weather-day-title: #94a3b8;
+  --weather-today-bg: linear-gradient(180deg, rgba(65, 50, 10, 0.9) 0%, rgba(15, 45, 40, 0.9) 100%);
+  --weather-today-border: rgba(234, 179, 8, 0.5);
+  --weather-today-title: #fef08a;
+  --weather-temp-max: #fef9c3;
+  --weather-temp-min: #5eead4;
+  --weather-precip-bg: rgba(94, 234, 212, 0.2);
+  --weather-precip-color: #99f6e4;
+
+  --modal-bg: #06241b;
+  --modal-border: rgba(234, 179, 8, 0.35);
+  --modal-title: #fefce8;
+  --modal-text: #fefce8;
+  --modal-subtext: #a7f3d0;
+  --modal-item-bg: rgba(255, 255, 255, 0.05);
+  --modal-item-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   5. Sunset Terracotta (Mediterranean Warmth)
+   ========================================================================== */
+[data-theme="terracotta"] {
+  --theme-is-dark: 0;
+
+  --bg-canvas: linear-gradient(160deg, #fdf6f0 0%, #f6ebe1 50%, #eedbc9 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(249, 115, 22, 0.28) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(234, 88, 12, 0.16) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(251, 146, 60, 0.18) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(249, 115, 22, 0.22) 0%, rgba(234, 88, 12, 0.08) 40%, transparent 70%);
+
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --header-border: #fed7aa;
+  --header-tag-bg: #ffffff;
+  --header-tag-border: #fdba74;
+  --header-text: #291e17;
+
+  --clock-digits: #291e17;
+  --clock-digits-shadow: 0 4px 20px rgba(41, 30, 23, 0.08);
+  --clock-colon: #ea580c;
+  --clock-colon-shadow: 0 2px 10px rgba(234, 88, 12, 0.3);
+  --clock-seconds: #ea580c;
+  --greeting-pill-bg: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  --greeting-pill-border: #fed7aa;
+  --greeting-pill-text: #9a3412;
+  --greeting-pill-shadow: 0 4px 15px rgba(234, 88, 12, 0.12);
+
+  --date-bar-bg: rgba(255, 255, 255, 0.95);
+  --date-bar-border: #fed7aa;
+  --date-bar-shadow: 0 6px 20px rgba(41, 30, 23, 0.04);
+  --date-gregorian-text: #291e17;
+  --date-hebrew-text: #c2410c;
+  --date-translit-text: #78716c;
+
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --card-border: #fed7aa;
+  --card-shadow: 0 10px 30px rgba(41, 30, 23, 0.04), 0 2px 10px rgba(234, 88, 12, 0.06);
+  --card-title-color: #291e17;
+  --card-header-border: #f6ebe1;
+  --card-sublabel: #78716c;
+
+  --shabbat-card-border: #fdba74;
+  --candle-card-bg: linear-gradient(145deg, #fff7ed 0%, #ffedd5 100%);
+  --candle-card-border: #fdba74;
+  --candle-time-color: #c2410c;
+  --candle-label-color: #78716c;
+  --havdalah-card-bg: linear-gradient(145deg, #faf5ff 0%, #ede9fe 100%);
+  --havdalah-card-border: #ddd6fe;
+  --havdalah-time-color: #6b21a8;
+  --havdalah-label-color: #78716c;
+  --parasha-text-color: #c2410c;
+
+  --weather-card-border: #fed7aa;
+  --weather-temp-color: #ea580c;
+  --weather-summary-bg: #ffffff;
+  --weather-summary-border: #fed7aa;
+  --weather-summary-text: #291e17;
+  --weather-day-card-bg: #ffffff;
+  --weather-day-card-border: #f6ebe1;
+  --weather-day-title: #78716c;
+  --weather-today-bg: linear-gradient(180deg, #ffedd5 0%, #fee2e2 100%);
+  --weather-today-border: #fb923c;
+  --weather-today-title: #c2410c;
+  --weather-temp-max: #291e17;
+  --weather-temp-min: #0284c7;
+  --weather-precip-bg: #ffedd5;
+  --weather-precip-color: #c2410c;
+
+  --modal-bg: #ffffff;
+  --modal-border: #fed7aa;
+  --modal-title: #291e17;
+  --modal-text: #291e17;
+  --modal-subtext: #78716c;
+  --modal-item-bg: #fffbf7;
+  --modal-item-border: #fed7aa;
+}

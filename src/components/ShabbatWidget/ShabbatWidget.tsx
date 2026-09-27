@@ -1,16 +1,83 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { ShabbatTimes } from '../../types';
+import { formatCountdown, parseIsoToTimestamp } from '../../services/hebcalService';
 import styles from './ShabbatWidget.module.css';
 
 interface ShabbatWidgetProps {
   shabbatTimes: ShabbatTimes | null;
   loading?: boolean;
+  onRefresh?: () => void;
 }
 
 export const ShabbatWidget: React.FC<ShabbatWidgetProps> = ({
   shabbatTimes,
-  loading = false
+  loading = false,
+  onRefresh
 }) => {
+  // Live timestamp ticking every second synchronized to second boundary
+  const [now, setNow] = useState<number>(() => Date.now());
+  const hasTriggeredRefreshAfterHavdalahRef = useRef(false);
+
+  useEffect(() => {
+    let timerId: any;
+
+    const tick = () => {
+      setNow(Date.now());
+      const delay = 1000 - (Date.now() % 1000);
+      timerId = setTimeout(tick, delay);
+    };
+
+    const initialDelay = 1000 - (Date.now() % 1000);
+    timerId = setTimeout(tick, initialDelay);
+
+    return () => clearTimeout(timerId);
+  }, []);
+
+  const candleTimeMs = useMemo(() => {
+    if (!shabbatTimes?.candleLighting?.dateStr) return null;
+    const ts = parseIsoToTimestamp(shabbatTimes.candleLighting.dateStr);
+    return isNaN(ts) ? null : ts;
+  }, [shabbatTimes?.candleLighting?.dateStr]);
+
+  const havdalahTimeMs = useMemo(() => {
+    if (!shabbatTimes?.havdalah?.dateStr) return null;
+    const ts = parseIsoToTimestamp(shabbatTimes.havdalah.dateStr);
+    return isNaN(ts) ? null : ts;
+  }, [shabbatTimes?.havdalah?.dateStr]);
+
+  // Live real-time check whether Shabbat is active right now
+  const isShabbat = useMemo(() => {
+    if (candleTimeMs !== null && havdalahTimeMs !== null) {
+      return now >= candleTimeMs && now < havdalahTimeMs;
+    }
+    return Boolean(shabbatTimes?.isShabbatNow);
+  }, [candleTimeMs, havdalahTimeMs, now, shabbatTimes?.isShabbatNow]);
+
+  // Live real-time countdown to candle lighting
+  const countdown = useMemo(() => {
+    if (isShabbat) return null;
+    if (candleTimeMs !== null) {
+      const diffMs = candleTimeMs - now;
+      if (diffMs > 0) {
+        return formatCountdown(diffMs);
+      }
+      return null;
+    }
+    return shabbatTimes?.timeUntilCandles || null;
+  }, [isShabbat, candleTimeMs, now, shabbatTimes?.timeUntilCandles]);
+
+  // Auto-refresh when Shabbat ends (Havdalah passed) to load next cycle
+  useEffect(() => {
+    if (havdalahTimeMs !== null && now >= havdalahTimeMs) {
+      if (!hasTriggeredRefreshAfterHavdalahRef.current) {
+        hasTriggeredRefreshAfterHavdalahRef.current = true;
+        onRefresh?.();
+      }
+    } else {
+      hasTriggeredRefreshAfterHavdalahRef.current = false;
+    }
+  }, [havdalahTimeMs, now, onRefresh]);
+
   if (loading && !shabbatTimes) {
     return (
       <div className={styles.container}>
@@ -23,13 +90,23 @@ export const ShabbatWidget: React.FC<ShabbatWidgetProps> = ({
     );
   }
 
-  const isShabbat = shabbatTimes?.isShabbatNow;
   const candleTime = shabbatTimes?.candleLighting?.time || '--:--';
   const havdalahTime = shabbatTimes?.havdalah?.time || '--:--';
   const parasha = shabbatTimes?.parasha;
   const parashaHebrew = shabbatTimes?.parashaHebrew;
-  const countdown = shabbatTimes?.timeUntilCandles;
   const holiday = shabbatTimes?.upcomingHoliday;
+
+  // Havdalah subtext: during Shabbat, show live countdown to Havdalah
+  const havdalahSub = useMemo(() => {
+    if (isShabbat && havdalahTimeMs !== null && havdalahTimeMs > now) {
+      const remainingMs = havdalahTimeMs - now;
+      const formatted = formatCountdown(remainingMs);
+      if (formatted) {
+        return `Sortie ${formatted}`;
+      }
+    }
+    return 'Samedi soir (3 étoiles)';
+  }, [isShabbat, havdalahTimeMs, now]);
 
   return (
     <div className={`${styles.container} ${isShabbat ? styles.isShabbatActive : ''}`}>
@@ -74,7 +151,7 @@ export const ShabbatWidget: React.FC<ShabbatWidgetProps> = ({
             <span className={styles.cardLabel}>Sortie de Chabbat</span>
           </div>
           <div className={`${styles.cardTimeValue} ${styles.havdalahTimeValue}`}>{havdalahTime}</div>
-          <div className={styles.cardSub}>Samedi soir (3 étoiles)</div>
+          <div className={styles.cardSub}>{havdalahSub}</div>
         </div>
       </div>
 

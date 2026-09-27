@@ -24,11 +24,12 @@ module.exports = (req, res) => {
     return res.status(204).end();
   }
 
-  const { geonameid, latitude, longitude, lat, lon, tzid } = req.query;
+  const { geonameid, latitude, longitude, lat, lon, tzid, gy, gm, gd } = req.query;
+  const dateParams = gy && gm && gd ? `&gy=${gy}&gm=${gm}&gd=${gd}` : '';
 
   let targetUrl;
   if (geonameid) {
-    targetUrl = `https://www.hebcal.com/shabbat?cfg=json&geonameid=${geonameid}&M=on&lg=s`;
+    targetUrl = `https://www.hebcal.com/shabbat?cfg=json&geonameid=${geonameid}&M=on&lg=s${dateParams}`;
   } else {
     const finalLat = latitude || lat || '32.0919';
     const finalLon = longitude || lon || '34.8851';
@@ -49,7 +50,7 @@ module.exports = (req, res) => {
       }
     }
 
-    targetUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${finalLat}&longitude=${finalLon}&tzid=${encodeURIComponent(safeTz)}&b=${b}&M=on&lg=s`;
+    targetUrl = `https://www.hebcal.com/shabbat?cfg=json&latitude=${finalLat}&longitude=${finalLon}&tzid=${encodeURIComponent(safeTz)}&b=${b}&M=on&lg=s${dateParams}`;
   }
 
   https.get(targetUrl, (apiRes) => {

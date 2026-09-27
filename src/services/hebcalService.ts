@@ -47,8 +47,8 @@ function getCityCandleLightingMinutes(loc: GeoLocation): number {
   return 18;
 }
 
-export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes> {
-  const cached = getCachedShabbat();
+export async function fetchShabbatTimes(loc: GeoLocation, targetDate?: Date): Promise<ShabbatTimes> {
+  const cached = !targetDate ? getCachedShabbat() : null;
 
   try {
     const lat = loc.latitude.toFixed(4);
@@ -57,14 +57,19 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
     const tzid = encodeURIComponent(safeTz);
     const b = getCityCandleLightingMinutes(loc);
 
+    let dateParams = '';
+    if (targetDate) {
+      dateParams = `&gy=${targetDate.getFullYear()}&gm=${targetDate.getMonth() + 1}&gd=${targetDate.getDate()}`;
+    }
+
     let res: Response | null = null;
 
     // 1. Try local proxy first (immune to iOS 9 Let's Encrypt certificate failure)
     try {
       if (loc.geonameid) {
-        res = await fetch(`/api/shabbat?geonameid=${loc.geonameid}&M=on`);
+        res = await fetch(`/api/shabbat?geonameid=${loc.geonameid}&M=on${dateParams}`);
       } else {
-        res = await fetch(`/api/shabbat?latitude=${lat}&longitude=${lon}&tzid=${tzid}&b=${b}&M=on`);
+        res = await fetch(`/api/shabbat?latitude=${lat}&longitude=${lon}&tzid=${tzid}&b=${b}&M=on${dateParams}`);
       }
     } catch (e) {
       // Local proxy failed or not available, fallback to direct
@@ -73,8 +78,8 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
     // 2. Direct fallback
     if (!res || !res.ok) {
       const directUrl = loc.geonameid
-        ? `https://www.hebcal.com/shabbat?cfg=json&geonameid=${loc.geonameid}&M=on&lg=s`
-        : `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${tzid}&b=${b}&M=on&lg=s`;
+        ? `https://www.hebcal.com/shabbat?cfg=json&geonameid=${loc.geonameid}&M=on&lg=s${dateParams}`
+        : `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${tzid}&b=${b}&M=on&lg=s${dateParams}`;
       res = await fetch(directUrl);
     }
 
@@ -93,7 +98,6 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
     let upcomingHoliday: { title: string; hebrewTitle?: string; date: string; isYomTov: boolean } | undefined;
 
     const now = new Date();
-
     const nowTime = now.getTime();
 
     const candleItems = items.filter((i) => i.category === 'candles');
@@ -103,22 +107,28 @@ export async function fetchShabbatTimes(loc: GeoLocation): Promise<ShabbatTimes>
 
     // Find the relevant Havdalah: first one in the future, or the last in list
     const activeHavdalah =
-      havdalahItems.find((h) => new Date(h.date).getTime() >= nowTime) ||
+      havdalahItems.find((h) => parseIsoToTimestamp(h.date) >= nowTime) ||
       havdalahItems[havdalahItems.length - 1];
+
+    // If this entire cycle's Havdalah is already in the past, query for next cycle
+    if (!targetDate && activeHavdalah && parseIsoToTimestamp(activeHavdalah.date) < nowTime) {
+      const tomorrow = new Date(nowTime + 24 * 3600 * 1000);
+      return fetchShabbatTimes(loc, tomorrow);
+    }
 
     // Find candle lighting associated with this cycle (before havdalah) or first future candle
     let activeCandle: any = null;
     if (activeHavdalah) {
-      const havdalahTime = new Date(activeHavdalah.date).getTime();
+      const havdalahTime = parseIsoToTimestamp(activeHavdalah.date);
       const precedingCandles = candleItems.filter(
-        (c) => new Date(c.date).getTime() <= havdalahTime
+        (c) => parseIsoToTimestamp(c.date) <= havdalahTime
       );
       activeCandle = precedingCandles[precedingCandles.length - 1];
     }
 
     if (!activeCandle) {
       activeCandle =
-        candleItems.find((c) => new Date(c.date).getTime() >= nowTime) ||
+        candleItems.find((c) => parseIsoToTimestamp(c.date) >= nowTime) ||
         candleItems[candleItems.length - 1];
     }
 
@@ -255,32 +265,65 @@ function getUtcOffsetSecondsFromIso(isoString?: string): number | undefined {
   return undefined;
 }
 
-function checkIsShabbat(candleDateStr?: string, havdalahDateStr?: string): boolean {
-  if (!candleDateStr || !havdalahDateStr) return false;
-  const now = Date.now();
-  const candleTime = new Date(candleDateStr).getTime();
-  const havdalahTime = new Date(havdalahDateStr).getTime();
-
-  return now >= candleTime && now <= havdalahTime;
+export function parseIsoToTimestamp(isoString?: string): number {
+  if (!isoString) return NaN;
+  const ts = new Date(isoString).getTime();
+  if (!isNaN(ts)) return ts;
+  const match = isoString.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?(?:([+-])(\d{2}):?(\d{2}))?/);
+  if (match) {
+    const y = parseInt(match[1], 10);
+    const m = parseInt(match[2], 10) - 1;
+    const d = parseInt(match[3], 10);
+    const hh = parseInt(match[4], 10);
+    const mm = parseInt(match[5], 10);
+    const ss = match[6] ? parseInt(match[6], 10) : 0;
+    const utcMs = Date.UTC(y, m, d, hh, mm, ss);
+    if (match[7] && match[8]) {
+      const sign = match[7] === '-' ? 1 : -1;
+      const offsetMs = (parseInt(match[8], 10) * 3600 + parseInt(match[9] || '0', 10) * 60) * 1000;
+      return utcMs + sign * offsetMs;
+    }
+    return utcMs;
+  }
+  return NaN;
 }
 
-function computeTimeUntil(targetDateStr: string): string | undefined {
-  const diffMs = new Date(targetDateStr).getTime() - Date.now();
-  if (diffMs <= 0 || diffMs > 7 * 24 * 3600 * 1000) return undefined;
+export function formatCountdown(diffMs: number): string | undefined {
+  if (diffMs <= 0) return undefined;
 
-  const totalMinutes = Math.floor(diffMs / 60000);
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  if (hours > 24) {
-    const days = Math.floor(hours / 24);
-    const remHours = hours % 24;
-    return `dans ${days}j ${remHours}h`;
+  const pad2 = (n: number) => String(n).padStart(2, '0');
+
+  if (days > 0) {
+    return `dans ${days}j ${pad2(hours)}h ${pad2(minutes)}m ${pad2(seconds)}s`;
   }
   if (hours > 0) {
-    return `dans ${hours}h ${minutes.toString().padStart(2, '0')}m`;
+    return `dans ${hours}h ${pad2(minutes)}m ${pad2(seconds)}s`;
   }
-  return `dans ${minutes} min`;
+  if (minutes > 0) {
+    return `dans ${minutes}m ${pad2(seconds)}s`;
+  }
+  return `dans ${seconds}s`;
+}
+
+export function checkIsShabbat(candleDateStr?: string, havdalahDateStr?: string, nowMs: number = Date.now()): boolean {
+  if (!candleDateStr || !havdalahDateStr) return false;
+  const candleTime = parseIsoToTimestamp(candleDateStr);
+  const havdalahTime = parseIsoToTimestamp(havdalahDateStr);
+  if (isNaN(candleTime) || isNaN(havdalahTime)) return false;
+
+  return nowMs >= candleTime && nowMs <= havdalahTime;
+}
+
+export function computeTimeUntil(targetDateStr: string, nowMs: number = Date.now()): string | undefined {
+  const targetMs = parseIsoToTimestamp(targetDateStr);
+  if (isNaN(targetMs)) return undefined;
+  return formatCountdown(targetMs - nowMs);
 }
 
 function getCachedShabbat(): ShabbatTimes | null {
@@ -288,11 +331,12 @@ function getCachedShabbat(): ShabbatTimes | null {
     const item = localStorage.getItem(APP_CONFIG.cacheKeys.shabbat);
     if (item) {
       const parsed = JSON.parse(item) as ShabbatTimes;
-      // Invalidate if data is older than 2 hours or contains corrupted foreign times
+      // Invalidate if data is older than 2 hours, contains corrupted foreign times, or Havdalah has passed
       if (
         !parsed ||
         (parsed.lastUpdated && Date.now() - parsed.lastUpdated > 2 * 3600 * 1000) ||
-        (parsed.candleLighting && parsed.candleLighting.time === '19:38')
+        (parsed.candleLighting && parsed.candleLighting.time === '19:38') ||
+        (parsed.havdalah?.dateStr && parseIsoToTimestamp(parsed.havdalah.dateStr) < Date.now())
       ) {
         localStorage.removeItem(APP_CONFIG.cacheKeys.shabbat);
         return null;

@@ -5,9 +5,10 @@
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #f4f6fa;
-  color: #0f172a;
+  background-color: var(--bg-canvas, #faf7f2);
+  color: var(--card-title-color, #1c1917);
   box-sizing: border-box;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .backgroundCanvas {
@@ -17,12 +18,13 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(ellipse at 50% 12%, rgba(254, 215, 170, 0.5) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 75%, rgba(186, 230, 253, 0.45) 0%, transparent 50%),
-    radial-gradient(ellipse at 15% 80%, rgba(233, 213, 255, 0.35) 0%, transparent 50%),
-    linear-gradient(160deg, #fdfbf7 0%, #f4f6fa 50%, #ebf1f8 100%);
+    var(--bg-ambient-top, radial-gradient(ellipse at 50% 12%, rgba(251, 191, 36, 0.28) 0%, transparent 60%)),
+    var(--bg-ambient-right, radial-gradient(ellipse at 85% 75%, rgba(217, 119, 6, 0.15) 0%, transparent 55%)),
+    var(--bg-ambient-left, radial-gradient(ellipse at 15% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 50%)),
+    var(--bg-canvas, linear-gradient(160deg, #faf7f2 0%, #f3ede2 50%, #eae2d3 100%));
   pointer-events: none;
   z-index: 0;
+  transition: background 0.4s ease;
 }
 
 .mainContent {

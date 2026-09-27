@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { APP_CONFIG } from './config';
-import { GeoLocation, ShabbatTimes, WeatherData } from './types';
+import { GeoLocation, ShabbatTimes, WeatherData, ThemeId } from './types';
 import {
   detectLocation,
   saveManualLocation,
@@ -9,11 +9,18 @@ import {
 import { fetchShabbatTimes } from './services/hebcalService';
 import { fetchWeatherData } from './services/weatherService';
 import { useWakeLock } from './hooks/useWakeLock';
+import {
+  getSavedTheme,
+  saveTheme,
+  getEffectiveTheme,
+  applyThemeToDom
+} from './themes';
 import { HeaderBar } from './components/HeaderBar/HeaderBar';
 import { Clock } from './components/Clock/Clock';
 import { ShabbatWidget } from './components/ShabbatWidget/ShabbatWidget';
 import { WeatherWidget } from './components/WeatherWidget/WeatherWidget';
 import { LocationModal } from './components/LocationModal/LocationModal';
+import { ThemeModal } from './components/ThemeModal/ThemeModal';
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 import styles from './App.module.css';
 
@@ -28,6 +35,15 @@ export const App: React.FC = () => {
   const [loadingShabbat, setLoadingShabbat] = useState<boolean>(true);
   const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState<boolean>(false);
+  const [activeTheme, setActiveTheme] = useState<ThemeId>(getSavedTheme);
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState<boolean>(false);
+
+  // Apply theme to DOM on mount and whenever activeTheme or Shabbat changes
+  useEffect(() => {
+    const effective = getEffectiveTheme(activeTheme, shabbatTimes?.isShabbatNow);
+    applyThemeToDom(effective);
+  }, [activeTheme, shabbatTimes?.isShabbatNow]);
+
 
   // Load location once at boot
   useEffect(() => {
@@ -132,6 +148,34 @@ export const App: React.FC = () => {
     refreshData(loc);
   }, [refreshData]);
 
+  const handleShabbatRefresh = useCallback(async () => {
+    if (!location) return;
+    try {
+      const shabbatData = await fetchShabbatTimes(location);
+      setShabbatTimes(shabbatData);
+    } catch (err) {
+      console.warn('Failed to refresh Shabbat data:', err);
+    }
+  }, [location]);
+
+  // Refresh data when app becomes visible (e.g. tablet wakes up)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && location) {
+        handleShabbatRefresh();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [location, handleShabbatRefresh]);
+
+  const handleSelectTheme = useCallback((newTheme: ThemeId) => {
+    setActiveTheme(newTheme);
+    saveTheme(newTheme);
+  }, []);
+
   return (
     <div className={styles.appContainer}>
       {/* Background ambient gradient */}
@@ -142,7 +186,9 @@ export const App: React.FC = () => {
         location={location}
         hebrewDateHebrew={shabbatTimes?.hebrewDateHebrew}
         isOnline={isOnline}
+        activeTheme={activeTheme}
         onOpenLocationModal={() => setIsLocationModalOpen(true)}
+        onOpenThemeModal={() => setIsThemeModalOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -165,6 +211,7 @@ export const App: React.FC = () => {
               <ShabbatWidget
                 shabbatTimes={shabbatTimes}
                 loading={loadingShabbat}
+                onRefresh={handleShabbatRefresh}
               />
             </ErrorBoundary>
           </div>
@@ -189,8 +236,17 @@ export const App: React.FC = () => {
         onSelectLocation={handleSelectLocation}
         onResetAuto={handleResetAuto}
       />
+
+      {/* Theme Selection Modal */}
+      <ThemeModal
+        isOpen={isThemeModalOpen}
+        activeTheme={activeTheme}
+        onClose={() => setIsThemeModalOpen(false)}
+        onSelectTheme={handleSelectTheme}
+      />
     </div>
   );
 };
+
 
 export default App;
