@@ -78,6 +78,18 @@ export const ShabbatWidget: React.FC<ShabbatWidgetProps> = ({
     }
   }, [havdalahTimeMs, now, onRefresh]);
 
+  // Havdalah subtext: during Shabbat, show live countdown to Havdalah
+  const havdalahSub = useMemo(() => {
+    if (isShabbat && havdalahTimeMs !== null && havdalahTimeMs > now) {
+      const remainingMs = havdalahTimeMs - now;
+      const formatted = formatCountdown(remainingMs);
+      if (formatted) {
+        return `Sortie ${formatted}`;
+      }
+    }
+    return 'Samedi soir (3 étoiles)';
+  }, [isShabbat, havdalahTimeMs, now]);
+
   if (loading && !shabbatTimes) {
     return (
       <div className={styles.container}>
@@ -95,18 +107,6 @@ export const ShabbatWidget: React.FC<ShabbatWidgetProps> = ({
   const parasha = shabbatTimes?.parasha;
   const parashaHebrew = shabbatTimes?.parashaHebrew;
   const holiday = shabbatTimes?.upcomingHoliday;
-
-  // Havdalah subtext: during Shabbat, show live countdown to Havdalah
-  const havdalahSub = useMemo(() => {
-    if (isShabbat && havdalahTimeMs !== null && havdalahTimeMs > now) {
-      const remainingMs = havdalahTimeMs - now;
-      const formatted = formatCountdown(remainingMs);
-      if (formatted) {
-        return `Sortie ${formatted}`;
-      }
-    }
-    return 'Samedi soir (3 étoiles)';
-  }, [isShabbat, havdalahTimeMs, now]);
 
   return (
     <div className={`${styles.container} ${isShabbat ? styles.isShabbatActive : ''}`}>
