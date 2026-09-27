@@ -2,16 +2,20 @@
 
 Une application React conçue comme un tableau de bord d'affichage mural ou écran connecté (kiosk), **hautement compatible avec les anciens appareils** (anciennes tablettes iPad 2/3/4, tablettes Android sous anciennes versions de Chrome, etc.).
 
+> 📖 **Pour savoir comment mettre à jour le site, déployer sur Vercel ou lancer sur iPad, consultez le [Guide de Déploiement Complet (DEPLOYMENT.md)](DEPLOYMENT.md).**
+
 ---
 
 ## 🌟 Fonctionnalités
 
-1. **Grande Horloge Digitale "Cyber Glow"** :
-   - Affichage XXL des heures et minutes avec halo lumineux cyan/bleu glacier.
+1. **Horloge & Palettes Configurables ("Cyber Glow", "Pierre de Jérusalem", "Midnight Luxury", etc.)** :
+   - 6 palettes d'ambiance commutables en 1 clic (Jérusalem Stone, Midnight OLED, Glacier, Émeraude, Terracotta, Auto Jour/Nuit).
+   - Affichage XXL des heures et minutes avec haute lisibilité à distance.
    - Secondes synchronisées à la milliseconde près pour un affichage fluide et sans à-coups.
    - Deux-points (`:`) clignotants animés.
    - Date grégorienne complète en français (ex: *Vendredi 25 Septembre 2026*).
    - Date hébraïque complète en hébreu et translittérée (ex: *כ״ה באלול תשפ״ו*).
+
 
 2. **Widget Chabbat & Fêtes Juives (API Hebcal)** :
    - Heure exacte d'allumage des bougies (*Hadlakat Nerot*) pour le vendredi ou veille de fête.
