@@ -100,36 +100,36 @@
    ========================================================= */
 @media (orientation: landscape) and (min-width: 851px) {
   .appContainer {
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    height: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mainContent {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: calc(100vh - 48px);
-    overflow: hidden;
-    padding: 0.6rem 1.5rem 1.2rem 1.5rem;
+    justify-content: flex-start;
+    min-height: calc(100vh - 48px);
+    overflow: visible;
+    padding: 0.5rem 1.25rem 1.5rem 1.25rem;
   }
 
   .clockSection {
-    flex: 1;
-    min-height: 0;
-    margin-bottom: 0.5rem;
+    flex: 0 0 auto;
+    margin-bottom: 0.6rem;
   }
 
   .widgetsSection {
-    flex: 1.1;
-    min-height: 0;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    gap: 1.25rem;
+    gap: 1.1rem;
   }
 
   .widgetsSection > * + * {
-    margin-left: 1.25rem;
+    margin-left: 1.1rem;
   }
 
   .shabbatColumn {
@@ -151,3 +151,4 @@
     height: 100%;
   }
 }
+

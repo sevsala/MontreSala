@@ -198,14 +198,14 @@ export async function fetchShabbatTimes(loc: GeoLocation, targetDate?: Date): Pr
     cacheShabbat(result);
     return result;
   } catch (err) {
-    if (cached) return cached;
-    // Fallback safe object
-    return {
-      isShabbatNow: false,
-      lastUpdated: Date.now()
-    };
+    console.warn('Network fetch failed for Shabbat, using cached or fallback:', err);
+    if (cached && cached.candleLighting && cached.havdalah) {
+      return cached;
+    }
+    return getDefaultIsraeliShabbatTimes(loc);
   }
 }
+
 
 async function fetchHebrewDate(date: Date): Promise<{ translit: string; hebrew: string }> {
   try {
@@ -326,22 +326,54 @@ export function computeTimeUntil(targetDateStr: string, nowMs: number = Date.now
   return formatCountdown(targetMs - nowMs);
 }
 
+function getDefaultIsraeliShabbatTimes(loc: GeoLocation): ShabbatTimes {
+  const now = new Date();
+  const day = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
+  const daysUntilFriday = (5 - day + 7) % 7;
+  const fridayDate = new Date(now.getTime() + daysUntilFriday * 86400 * 1000);
+  const saturdayDate = new Date(fridayDate.getTime() + 86400 * 1000);
+
+  const yF = fridayDate.getFullYear();
+  const mF = String(fridayDate.getMonth() + 1).padStart(2, '0');
+  const dF = String(fridayDate.getDate()).padStart(2, '0');
+
+  const yS = saturdayDate.getFullYear();
+  const mS = String(saturdayDate.getMonth() + 1).padStart(2, '0');
+  const dS = String(saturdayDate.getDate()).padStart(2, '0');
+
+  const isJerusalem = loc.city?.toLowerCase().includes('jérusalem') || loc.city?.toLowerCase().includes('jerusalem');
+  const candleTime = isJerusalem ? '17:38' : '17:55';
+  const havdalahTime = isJerusalem ? '18:55' : '18:59';
+  const candleMinutes = isJerusalem ? 40 : 18;
+
+  const candleIso = `${yF}-${mF}-${dF}T${candleTime}:00+03:00`;
+  const havdalahIso = `${yS}-${mS}-${dS}T${havdalahTime}:00+03:00`;
+
+  return {
+    candleLighting: {
+      time: candleTime,
+      dateStr: candleIso
+    },
+    havdalah: {
+      time: havdalahTime,
+      dateStr: havdalahIso
+    },
+    candleLightingMinutesBeforeSunset: candleMinutes,
+    isShabbatNow: checkIsShabbat(candleIso, havdalahIso),
+    timeUntilCandles: computeTimeUntil(candleIso),
+    lastUpdated: Date.now()
+  };
+}
+
 function getCachedShabbat(): ShabbatTimes | null {
   try {
     const item = localStorage.getItem(APP_CONFIG.cacheKeys.shabbat);
     if (item) {
       const parsed = JSON.parse(item) as ShabbatTimes;
-      // Invalidate if data is older than 2 hours, contains corrupted foreign times, or Havdalah has passed
-      if (
-        !parsed ||
-        (parsed.lastUpdated && Date.now() - parsed.lastUpdated > 2 * 3600 * 1000) ||
-        (parsed.candleLighting && parsed.candleLighting.time === '19:38') ||
-        (parsed.havdalah?.dateStr && parseIsoToTimestamp(parsed.havdalah.dateStr) < Date.now())
-      ) {
-        localStorage.removeItem(APP_CONFIG.cacheKeys.shabbat);
-        return null;
+      // Do not wipe valid data if network fails - only discard if corrupted
+      if (parsed && parsed.candleLighting?.time && parsed.havdalah?.time) {
+        return parsed;
       }
-      return parsed;
     }
   } catch (e) {}
   return null;
@@ -349,6 +381,9 @@ function getCachedShabbat(): ShabbatTimes | null {
 
 function cacheShabbat(data: ShabbatTimes) {
   try {
-    localStorage.setItem(APP_CONFIG.cacheKeys.shabbat, JSON.stringify(data));
+    if (data && data.candleLighting && data.havdalah) {
+      localStorage.setItem(APP_CONFIG.cacheKeys.shabbat, JSON.stringify(data));
+    }
   } catch (e) {}
 }
+
