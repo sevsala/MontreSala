@@ -4,8 +4,8 @@ export const APP_CONFIG = {
   // Title & App Name
   appName: 'Montre Sala Kiosk',
 
-  // Preset theme: 'jerusalem' (Jerusalem Stone & Honey) | 'midnight' | 'glacier' | 'emerald' | 'terracotta' | 'auto'
-  theme: 'jerusalem' as ThemeId,
+  // Preset theme: 'sunset_pop' (Miami Sunset & Corail Pop) | 'cyberpunk' | 'electric_lime' | 'jerusalem' | 'midnight' | 'glacier' | 'emerald' | 'terracotta' | 'auto'
+  theme: 'sunset_pop' as ThemeId,
 
   // Default location in Israel: Haïfa (or user can switch to Jerusalem, Tel Aviv, etc.)
   defaultLocation: {

@@ -56,7 +56,16 @@ export interface WeatherData {
   lastUpdated: number;
 }
 
-export type ThemeId = 'jerusalem' | 'midnight' | 'glacier' | 'emerald' | 'terracotta' | 'auto';
+export type ThemeId =
+  | 'sunset_pop'
+  | 'cyberpunk'
+  | 'electric_lime'
+  | 'jerusalem'
+  | 'midnight'
+  | 'glacier'
+  | 'emerald'
+  | 'terracotta'
+  | 'auto';
 
 export interface ThemeOption {
   id: ThemeId;

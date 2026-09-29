@@ -3,6 +3,45 @@ import { APP_CONFIG } from './config';
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
+    id: 'sunset_pop',
+    name: 'Miami Sunset & Corail Pop',
+    subtitle: 'Chaleureux, coucher de soleil & corail électrique',
+    icon: '🌅',
+    isDark: true,
+    previewColors: {
+      bg: '#180a24',
+      card: '#290f3c',
+      accent: '#ff4d6d',
+      text: '#fff1f2'
+    }
+  },
+  {
+    id: 'cyberpunk',
+    name: 'Neo-Tokyo & Cyberpunk',
+    subtitle: 'Néon magenta, cyan électrique & noir profond',
+    icon: '⚡',
+    isDark: true,
+    previewColors: {
+      bg: '#070714',
+      card: '#0d0b24',
+      accent: '#00f5d4',
+      text: '#ffffff'
+    }
+  },
+  {
+    id: 'electric_lime',
+    name: 'Electric Klein & Lime',
+    subtitle: 'Bleu cobalt profond & vert lime fluo',
+    icon: '🟢',
+    isDark: true,
+    previewColors: {
+      bg: '#060b17',
+      card: '#0a1733',
+      accent: '#a3e635',
+      text: '#ffffff'
+    }
+  },
+  {
     id: 'jerusalem',
     name: 'Pierre de Jérusalem & Miel',
     subtitle: 'Chaleureux, lin & pierre naturelle dorée',
@@ -85,7 +124,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
 export function getSavedTheme(): ThemeId {
   try {
     const saved = localStorage.getItem(APP_CONFIG.cacheKeys.theme);
-    if (saved && THEME_OPTIONS.some(t => t.id === saved)) {
+    if (saved && saved !== 'jerusalem' && THEME_OPTIONS.some(t => t.id === saved)) {
       return saved as ThemeId;
     }
   } catch (err) {
@@ -121,6 +160,324 @@ export function getEffectiveTheme(themeId: ThemeId, isShabbatActive?: boolean): 
 // Generate concrete static CSS rules for older Safari (iOS 9.3.5)
 // that does not reliably support CSS custom properties (var(--...))
 function getStaticThemeCss(theme: ThemeId): string {
+  if (theme === 'sunset_pop') {
+    return `
+      html, body, [class*="appContainer"] {
+        background-color: #180a24 !important;
+        color: #fff1f2 !important;
+      }
+      [class*="backgroundCanvas"] {
+        background: linear-gradient(160deg, #180a24 0%, #290f3c 50%, #150620 100%) !important;
+      }
+      [class*="header"] {
+        background: rgba(28, 12, 40, 0.95) !important;
+        border-color: rgba(255, 77, 109, 0.25) !important;
+        color: #fff1f2 !important;
+      }
+      [class*="locationTag"], [class*="themeTag"] {
+        background: rgba(45, 18, 62, 0.9) !important;
+        border-color: rgba(255, 77, 109, 0.4) !important;
+        color: #fff1f2 !important;
+      }
+      [class*="cityName"], [class*="themeName"] {
+        color: #fff1f2 !important;
+      }
+      [class*="hebrewTag"] {
+        color: #facc15 !important;
+      }
+      [class*="digitsWrapper"], [class*="timeSegment"] {
+        color: #fff1f2 !important;
+        text-shadow: 0 4px 28px rgba(255, 77, 109, 0.3) !important;
+      }
+      [class*="colon"], [class*="secondsColon"], [class*="secondsDigits"] {
+        color: #ff4d6d !important;
+        text-shadow: 0 2px 16px rgba(255, 77, 109, 0.6) !important;
+      }
+      [class*="greetingPill"] {
+        background: linear-gradient(135deg, rgba(65, 20, 52, 0.9) 0%, rgba(35, 10, 48, 0.95) 100%) !important;
+        border-color: rgba(255, 77, 109, 0.55) !important;
+      }
+      [class*="greetingText"] {
+        color: #fed7aa !important;
+      }
+      [class*="dateBar"] {
+        background: rgba(32, 14, 46, 0.92) !important;
+        border-color: rgba(255, 77, 109, 0.3) !important;
+      }
+      [class*="dateText"], [class*="gregorianDate"] {
+        color: #fff1f2 !important;
+      }
+      [class*="hebrewDateRow"], [class*="hebrewDateHebrew"] {
+        color: #facc15 !important;
+      }
+      [class*="hebrewDateTranslit"] {
+        color: #f472b6 !important;
+      }
+      [class*="shabbatColumn"] [class*="container"], [class*="weatherColumn"] [class*="container"] {
+        background: rgba(28, 12, 40, 0.92) !important;
+        border-color: rgba(255, 77, 109, 0.35) !important;
+        color: #fff1f2 !important;
+      }
+      [class*="title"] {
+        color: #fff1f2 !important;
+      }
+      [class*="candleCard"] {
+        background: linear-gradient(145deg, rgba(75, 20, 45, 0.95) 0%, rgba(55, 15, 35, 0.85) 100%) !important;
+        border-color: rgba(255, 77, 109, 0.5) !important;
+      }
+      [class*="candleTimeValue"] {
+        color: #fde047 !important;
+      }
+      [class*="havdalahCard"] {
+        background: linear-gradient(145deg, rgba(45, 20, 70, 0.95) 0%, rgba(30, 15, 55, 0.85) 100%) !important;
+        border-color: rgba(192, 132, 252, 0.4) !important;
+      }
+      [class*="havdalahTimeValue"] {
+        color: #e9d5ff !important;
+      }
+      [class*="dayCard"] {
+        background: rgba(40, 18, 58, 0.85) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+      }
+      [class*="todayCard"] {
+        background: linear-gradient(180deg, rgba(95, 25, 55, 0.9) 0%, rgba(45, 18, 70, 0.9) 100%) !important;
+        border-color: rgba(255, 77, 109, 0.55) !important;
+      }
+      [class*="tempMax"] {
+        color: #fff1f2 !important;
+      }
+      [class*="tempMin"] {
+        color: #38bdf8 !important;
+      }
+      [class*="currentTemp"] {
+        color: #fb923c !important;
+      }
+      [class*="currentSummary"] {
+        background: rgba(40, 18, 58, 0.9) !important;
+        border-color: rgba(251, 146, 60, 0.4) !important;
+        color: #fff1f2 !important;
+      }
+      [class*="currentDesc"] {
+        color: #fff1f2 !important;
+      }
+      [class*="parashaText"] {
+        color: #facc15 !important;
+      }
+    `;
+  }
+
+  if (theme === 'cyberpunk') {
+    return `
+      html, body, [class*="appContainer"] {
+        background-color: #070714 !important;
+        color: #ffffff !important;
+      }
+      [class*="backgroundCanvas"] {
+        background: linear-gradient(160deg, #070714 0%, #0d0b24 50%, #050510 100%) !important;
+      }
+      [class*="header"] {
+        background: rgba(10, 10, 24, 0.95) !important;
+        border-color: rgba(6, 182, 212, 0.3) !important;
+        color: #ffffff !important;
+      }
+      [class*="locationTag"], [class*="themeTag"] {
+        background: rgba(18, 18, 42, 0.9) !important;
+        border-color: rgba(6, 182, 212, 0.45) !important;
+        color: #ffffff !important;
+      }
+      [class*="cityName"], [class*="themeName"] {
+        color: #ffffff !important;
+      }
+      [class*="hebrewTag"] {
+        color: #00f5d4 !important;
+      }
+      [class*="digitsWrapper"], [class*="timeSegment"] {
+        color: #ffffff !important;
+        text-shadow: 0 4px 28px rgba(6, 182, 212, 0.3) !important;
+      }
+      [class*="colon"], [class*="secondsColon"], [class*="secondsDigits"] {
+        color: #00f5d4 !important;
+        text-shadow: 0 2px 18px rgba(0, 245, 212, 0.7) !important;
+      }
+      [class*="greetingPill"] {
+        background: linear-gradient(135deg, rgba(15, 23, 50, 0.9) 0%, rgba(25, 10, 35, 0.95) 100%) !important;
+        border-color: rgba(0, 245, 212, 0.5) !important;
+      }
+      [class*="greetingText"] {
+        color: #00f5d4 !important;
+      }
+      [class*="dateBar"] {
+        background: rgba(13, 11, 36, 0.92) !important;
+        border-color: rgba(6, 182, 212, 0.3) !important;
+      }
+      [class*="dateText"], [class*="gregorianDate"] {
+        color: #ffffff !important;
+      }
+      [class*="hebrewDateRow"], [class*="hebrewDateHebrew"] {
+        color: #00f5d4 !important;
+      }
+      [class*="hebrewDateTranslit"] {
+        color: #f472b6 !important;
+      }
+      [class*="shabbatColumn"] [class*="container"], [class*="weatherColumn"] [class*="container"] {
+        background: rgba(13, 11, 36, 0.92) !important;
+        border-color: rgba(6, 182, 212, 0.35) !important;
+        color: #ffffff !important;
+      }
+      [class*="title"] {
+        color: #ffffff !important;
+      }
+      [class*="candleCard"] {
+        background: linear-gradient(145deg, rgba(50, 15, 35, 0.95) 0%, rgba(35, 10, 25, 0.85) 100%) !important;
+        border-color: rgba(244, 63, 94, 0.5) !important;
+      }
+      [class*="candleTimeValue"] {
+        color: #f43f5e !important;
+      }
+      [class*="havdalahCard"] {
+        background: linear-gradient(145deg, rgba(10, 30, 45, 0.95) 0%, rgba(5, 20, 35, 0.85) 100%) !important;
+        border-color: rgba(6, 182, 212, 0.45) !important;
+      }
+      [class*="havdalahTimeValue"] {
+        color: #00f5d4 !important;
+      }
+      [class*="dayCard"] {
+        background: rgba(15, 15, 38, 0.85) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+      }
+      [class*="todayCard"] {
+        background: linear-gradient(180deg, rgba(60, 15, 45, 0.9) 0%, rgba(15, 30, 60, 0.9) 100%) !important;
+        border-color: rgba(0, 245, 212, 0.6) !important;
+      }
+      [class*="tempMax"] {
+        color: #ffffff !important;
+      }
+      [class*="tempMin"] {
+        color: #38bdf8 !important;
+      }
+      [class*="currentTemp"] {
+        color: #00f5d4 !important;
+      }
+      [class*="currentSummary"] {
+        background: rgba(15, 15, 38, 0.9) !important;
+        border-color: rgba(6, 182, 212, 0.4) !important;
+        color: #ffffff !important;
+      }
+      [class*="currentDesc"] {
+        color: #ffffff !important;
+      }
+      [class*="parashaText"] {
+        color: #00f5d4 !important;
+      }
+    `;
+  }
+
+  if (theme === 'electric_lime') {
+    return `
+      html, body, [class*="appContainer"] {
+        background-color: #060b17 !important;
+        color: #ffffff !important;
+      }
+      [class*="backgroundCanvas"] {
+        background: linear-gradient(160deg, #060b17 0%, #0a1733 50%, #040812 100%) !important;
+      }
+      [class*="header"] {
+        background: rgba(8, 15, 30, 0.95) !important;
+        border-color: rgba(163, 230, 53, 0.3) !important;
+        color: #ffffff !important;
+      }
+      [class*="locationTag"], [class*="themeTag"] {
+        background: rgba(12, 24, 48, 0.9) !important;
+        border-color: rgba(163, 230, 53, 0.45) !important;
+        color: #ffffff !important;
+      }
+      [class*="cityName"], [class*="themeName"] {
+        color: #ffffff !important;
+      }
+      [class*="hebrewTag"] {
+        color: #a3e635 !important;
+      }
+      [class*="digitsWrapper"], [class*="timeSegment"] {
+        color: #ffffff !important;
+        text-shadow: 0 4px 28px rgba(163, 230, 53, 0.25) !important;
+      }
+      [class*="colon"], [class*="secondsColon"], [class*="secondsDigits"] {
+        color: #a3e635 !important;
+        text-shadow: 0 2px 18px rgba(163, 230, 53, 0.7) !important;
+      }
+      [class*="greetingPill"] {
+        background: linear-gradient(135deg, rgba(10, 30, 20, 0.9) 0%, rgba(10, 20, 40, 0.95) 100%) !important;
+        border-color: rgba(163, 230, 53, 0.55) !important;
+      }
+      [class*="greetingText"] {
+        color: #bef264 !important;
+      }
+      [class*="dateBar"] {
+        background: rgba(10, 20, 42, 0.92) !important;
+        border-color: rgba(163, 230, 53, 0.3) !important;
+      }
+      [class*="dateText"], [class*="gregorianDate"] {
+        color: #ffffff !important;
+      }
+      [class*="hebrewDateRow"], [class*="hebrewDateHebrew"] {
+        color: #a3e635 !important;
+      }
+      [class*="hebrewDateTranslit"] {
+        color: #93c5fd !important;
+      }
+      [class*="shabbatColumn"] [class*="container"], [class*="weatherColumn"] [class*="container"] {
+        background: rgba(10, 20, 42, 0.92) !important;
+        border-color: rgba(163, 230, 53, 0.35) !important;
+        color: #ffffff !important;
+      }
+      [class*="title"] {
+        color: #ffffff !important;
+      }
+      [class*="candleCard"] {
+        background: linear-gradient(145deg, rgba(30, 45, 15, 0.95) 0%, rgba(20, 35, 10, 0.85) 100%) !important;
+        border-color: rgba(163, 230, 53, 0.5) !important;
+      }
+      [class*="candleTimeValue"] {
+        color: #bef264 !important;
+      }
+      [class*="havdalahCard"] {
+        background: linear-gradient(145deg, rgba(15, 25, 55, 0.95) 0%, rgba(10, 18, 45, 0.85) 100%) !important;
+        border-color: rgba(96, 165, 250, 0.45) !important;
+      }
+      [class*="havdalahTimeValue"] {
+        color: #93c5fd !important;
+      }
+      [class*="dayCard"] {
+        background: rgba(12, 25, 50, 0.85) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+      }
+      [class*="todayCard"] {
+        background: linear-gradient(180deg, rgba(30, 50, 15, 0.9) 0%, rgba(15, 30, 65, 0.9) 100%) !important;
+        border-color: rgba(163, 230, 53, 0.6) !important;
+      }
+      [class*="tempMax"] {
+        color: #ffffff !important;
+      }
+      [class*="tempMin"] {
+        color: #60a5fa !important;
+      }
+      [class*="currentTemp"] {
+        color: #a3e635 !important;
+      }
+      [class*="currentSummary"] {
+        background: rgba(12, 25, 50, 0.9) !important;
+        border-color: rgba(163, 230, 53, 0.4) !important;
+        color: #ffffff !important;
+      }
+      [class*="currentDesc"] {
+        color: #ffffff !important;
+      }
+      [class*="parashaText"] {
+        color: #a3e635 !important;
+      }
+    `;
+  }
+
   if (theme === 'midnight') {
     return `
       html, body, [class*="appContainer"] {
@@ -468,7 +825,12 @@ function getStaticThemeCss(theme: ThemeId): string {
 
 export function applyThemeToDom(effectiveTheme: ThemeId): void {
   const root = document.documentElement;
-  const isDark = effectiveTheme === 'midnight' || effectiveTheme === 'emerald';
+  const isDark =
+    effectiveTheme === 'midnight' ||
+    effectiveTheme === 'emerald' ||
+    effectiveTheme === 'sunset_pop' ||
+    effectiveTheme === 'cyberpunk' ||
+    effectiveTheme === 'electric_lime';
 
   root.setAttribute('data-theme', effectiveTheme);
   root.setAttribute('data-dark', isDark ? 'true' : 'false');

@@ -8,6 +8,240 @@
    5. terracotta (Sunset Terracotta & Rosewood)
    ========================================================================== */
 
+/* ==========================================================================
+   0. Miami Sunset & Corail Pop (Warm Twilight & Electric Coral)
+   ========================================================================== */
+[data-theme="sunset_pop"] {
+  --theme-is-dark: 1;
+
+  --bg-canvas: linear-gradient(160deg, #180a24 0%, #290f3c 50%, #150620 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(255, 77, 109, 0.28) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(251, 146, 60, 0.22) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(192, 132, 252, 0.2) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(255, 77, 109, 0.28) 0%, rgba(251, 146, 60, 0.12) 40%, transparent 70%);
+
+  --header-bg: rgba(28, 12, 40, 0.92);
+  --header-border: rgba(255, 77, 109, 0.25);
+  --header-tag-bg: rgba(45, 18, 62, 0.85);
+  --header-tag-border: rgba(255, 77, 109, 0.4);
+  --header-text: #fff1f2;
+
+  --clock-digits: #fff1f2;
+  --clock-digits-shadow: 0 4px 28px rgba(255, 77, 109, 0.3);
+  --clock-colon: #ff4d6d;
+  --clock-colon-shadow: 0 2px 16px rgba(255, 77, 109, 0.6);
+  --clock-seconds: #ff4d6d;
+  --greeting-pill-bg: linear-gradient(135deg, rgba(65, 20, 52, 0.9) 0%, rgba(35, 10, 48, 0.95) 100%);
+  --greeting-pill-border: rgba(255, 77, 109, 0.55);
+  --greeting-pill-text: #fed7aa;
+  --greeting-pill-shadow: 0 4px 20px rgba(255, 77, 109, 0.25);
+
+  --date-bar-bg: rgba(32, 14, 46, 0.9);
+  --date-bar-border: rgba(255, 77, 109, 0.3);
+  --date-bar-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --date-gregorian-text: #fff1f2;
+  --date-hebrew-text: #facc15;
+  --date-translit-text: #f472b6;
+
+  --card-bg: rgba(28, 12, 40, 0.9);
+  --card-border: rgba(255, 77, 109, 0.3);
+  --card-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 2px 15px rgba(255, 77, 109, 0.15);
+  --card-title-color: #fff1f2;
+  --card-header-border: rgba(255, 255, 255, 0.08);
+  --card-sublabel: #fda4af;
+
+  --shabbat-card-border: rgba(255, 77, 109, 0.45);
+  --candle-card-bg: linear-gradient(145deg, rgba(75, 20, 45, 0.95) 0%, rgba(55, 15, 35, 0.85) 100%);
+  --candle-card-border: rgba(255, 77, 109, 0.5);
+  --candle-time-color: #fde047;
+  --candle-label-color: #fecdd3;
+  --havdalah-card-bg: linear-gradient(145deg, rgba(45, 20, 70, 0.95) 0%, rgba(30, 15, 55, 0.85) 100%);
+  --havdalah-card-border: rgba(192, 132, 252, 0.4);
+  --havdalah-time-color: #e9d5ff;
+  --havdalah-label-color: #d8b4fe;
+  --parasha-text-color: #facc15;
+
+  --weather-card-border: rgba(251, 146, 60, 0.35);
+  --weather-temp-color: #fb923c;
+  --weather-summary-bg: rgba(40, 18, 58, 0.85);
+  --weather-summary-border: rgba(251, 146, 60, 0.4);
+  --weather-summary-text: #fff1f2;
+  --weather-day-card-bg: rgba(40, 18, 58, 0.8);
+  --weather-day-card-border: rgba(255, 255, 255, 0.08);
+  --weather-day-title: #fda4af;
+  --weather-today-bg: linear-gradient(180deg, rgba(95, 25, 55, 0.9) 0%, rgba(45, 18, 70, 0.9) 100%);
+  --weather-today-border: rgba(255, 77, 109, 0.55);
+  --weather-today-title: #fde047;
+  --weather-temp-max: #fff1f2;
+  --weather-temp-min: #38bdf8;
+  --weather-precip-bg: rgba(56, 189, 248, 0.2);
+  --weather-precip-color: #7dd3fc;
+
+  --modal-bg: #1c0c26;
+  --modal-border: rgba(255, 77, 109, 0.35);
+  --modal-title: #fff1f2;
+  --modal-text: #fff1f2;
+  --modal-subtext: #fda4af;
+  --modal-item-bg: rgba(255, 255, 255, 0.06);
+  --modal-item-border: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   Cyberpunk & Neo-Tokyo (Neon Magenta & Electric Cyan)
+   ========================================================================== */
+[data-theme="cyberpunk"] {
+  --theme-is-dark: 1;
+
+  --bg-canvas: linear-gradient(160deg, #070714 0%, #0d0b24 50%, #050510 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(6, 182, 212, 0.28) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(244, 63, 94, 0.22) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, rgba(244, 63, 94, 0.12) 40%, transparent 70%);
+
+  --header-bg: rgba(10, 10, 24, 0.92);
+  --header-border: rgba(6, 182, 212, 0.3);
+  --header-tag-bg: rgba(18, 18, 42, 0.85);
+  --header-tag-border: rgba(6, 182, 212, 0.45);
+  --header-text: #ffffff;
+
+  --clock-digits: #ffffff;
+  --clock-digits-shadow: 0 4px 28px rgba(6, 182, 212, 0.3);
+  --clock-colon: #00f5d4;
+  --clock-colon-shadow: 0 2px 18px rgba(0, 245, 212, 0.7);
+  --clock-seconds: #f43f5e;
+  --greeting-pill-bg: linear-gradient(135deg, rgba(15, 23, 50, 0.9) 0%, rgba(25, 10, 35, 0.95) 100%);
+  --greeting-pill-border: rgba(0, 245, 212, 0.5);
+  --greeting-pill-text: #00f5d4;
+  --greeting-pill-shadow: 0 4px 20px rgba(0, 245, 212, 0.25);
+
+  --date-bar-bg: rgba(13, 11, 36, 0.9);
+  --date-bar-border: rgba(6, 182, 212, 0.3);
+  --date-bar-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --date-gregorian-text: #ffffff;
+  --date-hebrew-text: #00f5d4;
+  --date-translit-text: #f472b6;
+
+  --card-bg: rgba(13, 11, 36, 0.9);
+  --card-border: rgba(6, 182, 212, 0.35);
+  --card-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 2px 15px rgba(6, 182, 212, 0.15);
+  --card-title-color: #ffffff;
+  --card-header-border: rgba(255, 255, 255, 0.08);
+  --card-sublabel: #94a3b8;
+
+  --shabbat-card-border: rgba(244, 63, 94, 0.45);
+  --candle-card-bg: linear-gradient(145deg, rgba(50, 15, 35, 0.95) 0%, rgba(35, 10, 25, 0.85) 100%);
+  --candle-card-border: rgba(244, 63, 94, 0.5);
+  --candle-time-color: #f43f5e;
+  --candle-label-color: #fecdd3;
+  --havdalah-card-bg: linear-gradient(145deg, rgba(10, 30, 45, 0.95) 0%, rgba(5, 20, 35, 0.85) 100%);
+  --havdalah-card-border: rgba(6, 182, 212, 0.45);
+  --havdalah-time-color: #00f5d4;
+  --havdalah-label-color: #a5f3fc;
+  --parasha-text-color: #00f5d4;
+
+  --weather-card-border: rgba(6, 182, 212, 0.35);
+  --weather-temp-color: #00f5d4;
+  --weather-summary-bg: rgba(15, 15, 38, 0.85);
+  --weather-summary-border: rgba(6, 182, 212, 0.4);
+  --weather-summary-text: #ffffff;
+  --weather-day-card-bg: rgba(15, 15, 38, 0.8);
+  --weather-day-card-border: rgba(255, 255, 255, 0.08);
+  --weather-day-title: #94a3b8;
+  --weather-today-bg: linear-gradient(180deg, rgba(60, 15, 45, 0.9) 0%, rgba(15, 30, 60, 0.9) 100%);
+  --weather-today-border: rgba(0, 245, 212, 0.6);
+  --weather-today-title: #00f5d4;
+  --weather-temp-max: #ffffff;
+  --weather-temp-min: #38bdf8;
+  --weather-precip-bg: rgba(6, 182, 212, 0.2);
+  --weather-precip-color: #00f5d4;
+
+  --modal-bg: #0d0b24;
+  --modal-border: rgba(6, 182, 212, 0.35);
+  --modal-title: #ffffff;
+  --modal-text: #ffffff;
+  --modal-subtext: #94a3b8;
+  --modal-item-bg: rgba(255, 255, 255, 0.06);
+  --modal-item-border: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   Electric Klein & Acid Lime (Cobalt Deep & Lime Neon)
+   ========================================================================== */
+[data-theme="electric_lime"] {
+  --theme-is-dark: 1;
+
+  --bg-canvas: linear-gradient(160deg, #060b17 0%, #0a1733 50%, #040812 100%);
+  --bg-ambient-top: radial-gradient(ellipse at 50% 12%, rgba(163, 230, 53, 0.25) 0%, transparent 60%);
+  --bg-ambient-right: radial-gradient(ellipse at 85% 75%, rgba(59, 130, 246, 0.25) 0%, transparent 55%);
+  --bg-ambient-left: radial-gradient(ellipse at 15% 80%, rgba(163, 230, 53, 0.15) 0%, transparent 50%);
+  --clock-glow: radial-gradient(circle, rgba(163, 230, 53, 0.25) 0%, rgba(59, 130, 246, 0.15) 40%, transparent 70%);
+
+  --header-bg: rgba(8, 15, 30, 0.92);
+  --header-border: rgba(163, 230, 53, 0.3);
+  --header-tag-bg: rgba(12, 24, 48, 0.85);
+  --header-tag-border: rgba(163, 230, 53, 0.45);
+  --header-text: #ffffff;
+
+  --clock-digits: #ffffff;
+  --clock-digits-shadow: 0 4px 28px rgba(163, 230, 53, 0.25);
+  --clock-colon: #a3e635;
+  --clock-colon-shadow: 0 2px 18px rgba(163, 230, 53, 0.7);
+  --clock-seconds: #a3e635;
+  --greeting-pill-bg: linear-gradient(135deg, rgba(10, 30, 20, 0.9) 0%, rgba(10, 20, 40, 0.95) 100%);
+  --greeting-pill-border: rgba(163, 230, 53, 0.55);
+  --greeting-pill-text: #bef264;
+  --greeting-pill-shadow: 0 4px 20px rgba(163, 230, 53, 0.2);
+
+  --date-bar-bg: rgba(10, 20, 42, 0.9);
+  --date-bar-border: rgba(163, 230, 53, 0.3);
+  --date-bar-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --date-gregorian-text: #ffffff;
+  --date-hebrew-text: #a3e635;
+  --date-translit-text: #93c5fd;
+
+  --card-bg: rgba(10, 20, 42, 0.9);
+  --card-border: rgba(163, 230, 53, 0.35);
+  --card-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 2px 15px rgba(163, 230, 53, 0.15);
+  --card-title-color: #ffffff;
+  --card-header-border: rgba(255, 255, 255, 0.08);
+  --card-sublabel: #94a3b8;
+
+  --shabbat-card-border: rgba(163, 230, 53, 0.45);
+  --candle-card-bg: linear-gradient(145deg, rgba(30, 45, 15, 0.95) 0%, rgba(20, 35, 10, 0.85) 100%);
+  --candle-card-border: rgba(163, 230, 53, 0.5);
+  --candle-time-color: #bef264;
+  --candle-label-color: #ecfccb;
+  --havdalah-card-bg: linear-gradient(145deg, rgba(15, 25, 55, 0.95) 0%, rgba(10, 18, 45, 0.85) 100%);
+  --havdalah-card-border: rgba(96, 165, 250, 0.45);
+  --havdalah-time-color: #93c5fd;
+  --havdalah-label-color: #bfdbfe;
+  --parasha-text-color: #a3e635;
+
+  --weather-card-border: rgba(163, 230, 53, 0.35);
+  --weather-temp-color: #a3e635;
+  --weather-summary-bg: rgba(12, 25, 50, 0.85);
+  --weather-summary-border: rgba(163, 230, 53, 0.4);
+  --weather-summary-text: #ffffff;
+  --weather-day-card-bg: rgba(12, 25, 50, 0.8);
+  --weather-day-card-border: rgba(255, 255, 255, 0.08);
+  --weather-day-title: #94a3b8;
+  --weather-today-bg: linear-gradient(180deg, rgba(30, 50, 15, 0.9) 0%, rgba(15, 30, 65, 0.9) 100%);
+  --weather-today-border: rgba(163, 230, 53, 0.6);
+  --weather-today-title: #bef264;
+  --weather-temp-max: #ffffff;
+  --weather-temp-min: #60a5fa;
+  --weather-precip-bg: rgba(163, 230, 53, 0.2);
+  --weather-precip-color: #bef264;
+
+  --modal-bg: #0a1733;
+  --modal-border: rgba(163, 230, 53, 0.35);
+  --modal-title: #ffffff;
+  --modal-text: #ffffff;
+  --modal-subtext: #94a3b8;
+  --modal-item-bg: rgba(255, 255, 255, 0.06);
+  --modal-item-border: rgba(255, 255, 255, 0.12);
+}
+
 :root,
 [data-theme="jerusalem"] {
   --theme-is-dark: 0;
